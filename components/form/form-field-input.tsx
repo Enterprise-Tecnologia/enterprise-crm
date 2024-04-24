@@ -1,22 +1,27 @@
 import { Input } from "@/components/ui/input";
 import { FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "../ui/form";
 import { Control } from "react-hook-form";
+import { InputHTMLAttributes } from "react";
 
-export function InputWithLabel(
+interface FormFieldInputProps extends InputHTMLAttributes<HTMLInputElement> {
+    name:string,
+    label:string,
+    formControl: Control<any>,
+    description?: string,
+    fnMask?: Function
+};
+
+export function FormFieldInput(
     {
         name,
         label,
-        placeholder,
         formControl,
-        description
+        description,
+        fnMask,
+        ...rest
     }
-    : {
-        name:string,
-        label:string,
-        placeholder:string,
-        formControl: Control<any>,
-        description?: string
-    }) {
+    : FormFieldInputProps
+) {
 
     return (
         <FormField
@@ -27,8 +32,10 @@ export function InputWithLabel(
                     <FormLabel>{label}</FormLabel>
                     <FormControl>
                         <Input
-                            placeholder={placeholder}
                             {...field}
+                            {...rest}
+                            onChange={(event) => fnMask
+                                && field.onChange(fnMask(event.target.value))}
                         />
                     </FormControl>
                     {description && (
