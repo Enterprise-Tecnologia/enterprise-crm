@@ -2,20 +2,22 @@ import { Control } from "react-hook-form";
 import { FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "../ui/form";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "../ui/select";
 
-export function SelectWithLabel(
+export function FormItemSelect(
     {
         name,
         label,
         placeholder,
         formControl,
-        description
+        description,
+        list
     }
     : {
         name:string,
         label:string,
         placeholder:string,
         formControl: Control<any>,
-        description?: string
+        description?: string,
+        list?: any[]
     }) {
 
     return (
@@ -31,11 +33,17 @@ export function SelectWithLabel(
                                 <SelectValue placeholder={placeholder} />
                             </SelectTrigger>
                         </FormControl>
-                        <SelectContent>
-                            <SelectItem value="m@example.com">m@example.com</SelectItem>
-                            <SelectItem value="m@google.com">m@google.com</SelectItem>
-                            <SelectItem value="m@support.com">m@support.com</SelectItem>
-                        </SelectContent>
+                        {list && (
+                            <SelectContent>
+                                {list && list.map(item => {
+                                    return (
+                                        <SelectItem key={item.code} value={item.code}>
+                                            {item.description}
+                                        </SelectItem>
+                                    )
+                                })}
+                            </SelectContent>
+                        )}
                     </Select>
                     {description && (
                         <FormDescription>
