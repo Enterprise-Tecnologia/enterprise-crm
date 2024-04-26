@@ -23,6 +23,8 @@ import { useState } from "react";
 import DialogAlert from "@/components/ui/dialog-alert";
 import { postAddLead } from "@/services/proposal-client-side";
 import CenteredSpinner from "./_components/centered-spinner";
+import SuccessMessage from "./success-message";
+import { cn } from "@/lib/utils";
 
 export default function FormVendaDireta({
     product,
@@ -204,21 +206,11 @@ export default function FormVendaDireta({
             .catch(err => {console.error(err);console.log(err);})
     };
 
-    if(isAlreadySubmited) {
-        return (
-            <div className="flex flex-col items-center justify-center w-screen h-screen">
-                <h1
-                    className={`text-2xl p-4 my-3 text-zinc-600 font-bold shadow-lg rounded-b-xl`}
-                >
-                    {product.name}
-                </h1>
-                <p className="text-center p-4 italic">
-                    Contratação realizada com sucesso
-                </p>
-            </div>
-        );
-    }
-
+    if(isAlreadySubmited)
+        return <SuccessMessage
+                    product={product.name}
+                    message={`Contratação realizada com sucesso`}
+                />
 
     if(isPending)
         return <CenteredSpinner />
@@ -230,7 +222,10 @@ export default function FormVendaDireta({
                 {step === 1 && !isPending &&
                     (<>
                         <h1
-                            className={`text-2xl p-4 my-3 text-zinc-600 font-bold shadow-lg rounded-b-xl`}
+                            className={cn(
+                                `text-2xl p-4 my-3 text-zinc-600 font-bold shadow-lg rounded-b-xl`,
+                                `bg-gradient-to-b from-yellow-50 to-zinc-50`
+                            )}
                         >
                             Dados Cadastrais
                         </h1>
@@ -246,7 +241,10 @@ export default function FormVendaDireta({
                 {step === 2 && !isPending &&
                     (<>
                         <h1
-                            className={`text-2xl p-4 my-3 text-zinc-600 font-bold shadow-lg rounded-b-xl`}
+                            className={cn(
+                                `text-2xl p-4 my-3 text-zinc-600 font-bold shadow-lg rounded-b-xl`,
+                                `bg-gradient-to-b from-yellow-50 to-zinc-50`
+                            )}
                         >
                             Endereço
                         </h1>
@@ -263,7 +261,10 @@ export default function FormVendaDireta({
                 {step === 3 && !isPending &&
                     (<>
                         <h1
-                            className={`text-2xl p-4 my-3 text-zinc-600 font-bold shadow-lg rounded-b-xl`}
+                            className={cn(
+                                `text-2xl p-4 my-3 text-zinc-600 font-bold shadow-lg rounded-b-xl`,
+                                `bg-gradient-to-b from-yellow-50 to-zinc-50`
+                            )}
                         >
                             Dados de pagamento
                         </h1>
