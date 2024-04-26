@@ -1,6 +1,7 @@
+import CenteredSpinner from "./_components/centered-spinner";
 
 export default function Loading() {
 
-    return <p>Carregando...</p>
+    return <CenteredSpinner />
 }
   

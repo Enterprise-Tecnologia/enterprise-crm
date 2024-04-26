@@ -1,16 +1,20 @@
+'use client';
+
 import {
     ApiResponseType
-} from "@/interfaces/api-response";
+} from "../interfaces/api-response";
 
-const baseUrl = process.env.API_BASE_URL ?? '';
+const baseUrl = process.env.NEXT_PUBLIC_BASE_URI ?? '';
 
-export const getProductBySlug = async(slug: string): Promise<ApiResponseType> => {
+export const postAddLead = async(data: object): Promise<ApiResponseType> => {
 
-    const res = await fetch(`${baseUrl}/Product/${slug}/slug`, {
+    const res = await fetch(`${baseUrl}/Proposal/lead`, {
+        method: 'Post',
         headers: {
             'Content-Type': 'application/json',
             'Accept': '*/*'
-        }
+        },
+        body: JSON.stringify(data)
     });
     
     if(!res.ok) {
@@ -21,5 +25,4 @@ export const getProductBySlug = async(slug: string): Promise<ApiResponseType> =>
     }
     
     return await res.json() as ApiResponseType;
-
 };

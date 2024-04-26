@@ -21,6 +21,10 @@ import FormAddress from "./form-address";
 import FormPayment from "./form-payment";
 import { useState } from "react";
 import DialogAlert from "@/components/ui/dialog-alert";
+import { postAddLead } from "@/services/proposal-client-side";
+import CenteredSpinner from "./_components/centered-spinner";
+import SuccessMessage from "./success-message";
+import { cn } from "@/lib/utils";
 
 export default function FormVendaDireta({
     product,
@@ -37,6 +41,7 @@ export default function FormVendaDireta({
     const [step, setStep] = useState(1);
     const [isPending, setIsPending] = useState(false);
     const [openDialog, setOpenDialog] = useState(false);
+    const [isAlreadySubmited, setIsAlreadySubmited] = useState(false);
     const [dialogData, setDialogData] = useState<{
 		title: string
 		body: string | JSX.Element
@@ -111,48 +116,40 @@ export default function FormVendaDireta({
 
         setIsPending(isPending => !isPending);
 
-        fetch(process.env.API_BASE_URL + '/Proposal/lead', {
-		    method: 'POST',
-			headers: {
-			    'Content-Type': 'application/json',
-			},
-			body: JSON.stringify(validacaoEsquema.data),
-		})
-	    .then(response => response.json())
-		.then(response => {
-		    console.log(response)
+        postAddLead(validacaoEsquema.data)
+            .then(result => {
 
-            setDialogData({
-                title: 'Ocorreu um erro no envio',
-                body: 'Não foi possível efetuar a contratação.',
-            });
+                if(!result.success) {
+                    setDialogData({
+                        title: 'Ocorreu um erro no processamento da contratação',
+                        body: result.message,
+                    });
+                    setOpenDialog(true);
+                    setIsPending(isPending => !isPending);
+                    return;
+                }
 
-            if (response.success) {
+                setDialogData({
+                    title: 'Contratação efetuada com sucesso',
+                    body: result.message,
+                });
+
+                setOpenDialog(true);
                 formPersonal.reset();
                 formAddress.reset();
                 formPayment.reset();
                 formSubmit.reset();
-                // window.scrollTo(0, 0)
-                // setHasRegistered(true)
-            } else {
+                setStep(1);
+                setIsAlreadySubmited(option => !option);
+            })
+            .catch(err => {
                 setDialogData({
-                    title: 'Não foi possível concluir a contratação',
-                    body: response.message,
+                    title: 'Ocorreu um erro no processamento da contratação',
+                    body: 'A contratação não foi realizado. Tente novamente.',
                 });
                 setOpenDialog(true);
-                setIsPending(isPending => !isPending);
-            }
-		})
-		.catch(err => {
-            setDialogData({
-                title: 'Ocorreu um erro no processamento da contratação',
-                body: 'A contratação não foi realizado. Tente novamente.',
-            });
-            setOpenDialog(true);
-            setIsPending(isPending => !isPending);
-		})
-		.finally(() => console.log('finally'));
-
+            })
+            .finally(() => setIsPending(isPending => !isPending));
     };
 
     const handleNavigation = (page: number) => {
@@ -209,6 +206,14 @@ export default function FormVendaDireta({
             .catch(err => {console.error(err);console.log(err);})
     };
 
+    if(isAlreadySubmited)
+        return <SuccessMessage
+                    product={product.name}
+                    message={`Contratação realizada com sucesso`}
+                />
+
+    if(isPending)
+        return <CenteredSpinner />
 
     return (
         <>
@@ -217,7 +222,10 @@ export default function FormVendaDireta({
                 {step === 1 && !isPending &&
                     (<>
                         <h1
-                            className={`text-2xl p-4 my-3 text-zinc-600 font-bold shadow-lg rounded-b-xl`}
+                            className={cn(
+                                `text-2xl p-4 my-3 text-zinc-600 font-bold shadow-lg rounded-b-xl`,
+                                `bg-gradient-to-b from-yellow-50 to-zinc-50`
+                            )}
                         >
                             Dados Cadastrais
                         </h1>
@@ -233,7 +241,10 @@ export default function FormVendaDireta({
                 {step === 2 && !isPending &&
                     (<>
                         <h1
-                            className={`text-2xl p-4 my-3 text-zinc-600 font-bold shadow-lg rounded-b-xl`}
+                            className={cn(
+                                `text-2xl p-4 my-3 text-zinc-600 font-bold shadow-lg rounded-b-xl`,
+                                `bg-gradient-to-b from-yellow-50 to-zinc-50`
+                            )}
                         >
                             Endereço
                         </h1>
@@ -250,7 +261,10 @@ export default function FormVendaDireta({
                 {step === 3 && !isPending &&
                     (<>
                         <h1
-                            className={`text-2xl p-4 my-3 text-zinc-600 font-bold shadow-lg rounded-b-xl`}
+                            className={cn(
+                                `text-2xl p-4 my-3 text-zinc-600 font-bold shadow-lg rounded-b-xl`,
+                                `bg-gradient-to-b from-yellow-50 to-zinc-50`
+                            )}
                         >
                             Dados de pagamento
                         </h1>
