@@ -21,6 +21,8 @@ import FormAddress from "./form-address";
 import FormPayment from "./form-payment";
 import { useState } from "react";
 import DialogAlert from "@/components/ui/dialog-alert";
+import { postAddLead } from "@/services/proposal-client-side";
+import CenteredSpinner from "./_components/centered-spinner";
 
 export default function FormVendaDireta({
     product,
@@ -37,6 +39,7 @@ export default function FormVendaDireta({
     const [step, setStep] = useState(1);
     const [isPending, setIsPending] = useState(false);
     const [openDialog, setOpenDialog] = useState(false);
+    const [isAlreadySubmited, setIsAlreadySubmited] = useState(false);
     const [dialogData, setDialogData] = useState<{
 		title: string
 		body: string | JSX.Element
@@ -111,48 +114,40 @@ export default function FormVendaDireta({
 
         setIsPending(isPending => !isPending);
 
-        fetch(process.env.API_BASE_URL + '/Proposal/lead', {
-		    method: 'POST',
-			headers: {
-			    'Content-Type': 'application/json',
-			},
-			body: JSON.stringify(validacaoEsquema.data),
-		})
-	    .then(response => response.json())
-		.then(response => {
-		    console.log(response)
+        postAddLead(validacaoEsquema.data)
+            .then(result => {
 
-            setDialogData({
-                title: 'Ocorreu um erro no envio',
-                body: 'Não foi possível efetuar a contratação.',
-            });
+                if(!result.success) {
+                    setDialogData({
+                        title: 'Ocorreu um erro no processamento da contratação',
+                        body: result.message,
+                    });
+                    setOpenDialog(true);
+                    setIsPending(isPending => !isPending);
+                    return;
+                }
 
-            if (response.success) {
+                setDialogData({
+                    title: 'Contratação efetuada com sucesso',
+                    body: result.message,
+                });
+
+                setOpenDialog(true);
                 formPersonal.reset();
                 formAddress.reset();
                 formPayment.reset();
                 formSubmit.reset();
-                // window.scrollTo(0, 0)
-                // setHasRegistered(true)
-            } else {
+                setStep(1);
+                setIsAlreadySubmited(option => !option);
+            })
+            .catch(err => {
                 setDialogData({
-                    title: 'Não foi possível concluir a contratação',
-                    body: response.message,
+                    title: 'Ocorreu um erro no processamento da contratação',
+                    body: 'A contratação não foi realizado. Tente novamente.',
                 });
                 setOpenDialog(true);
-                setIsPending(isPending => !isPending);
-            }
-		})
-		.catch(err => {
-            setDialogData({
-                title: 'Ocorreu um erro no processamento da contratação',
-                body: 'A contratação não foi realizado. Tente novamente.',
-            });
-            setOpenDialog(true);
-            setIsPending(isPending => !isPending);
-		})
-		.finally(() => console.log('finally'));
-
+            })
+            .finally(() => setIsPending(isPending => !isPending));
     };
 
     const handleNavigation = (page: number) => {
@@ -209,6 +204,24 @@ export default function FormVendaDireta({
             .catch(err => {console.error(err);console.log(err);})
     };
 
+    if(isAlreadySubmited) {
+        return (
+            <div className="flex flex-col items-center justify-center w-screen h-screen">
+                <h1
+                    className={`text-2xl p-4 my-3 text-zinc-600 font-bold shadow-lg rounded-b-xl`}
+                >
+                    {product.name}
+                </h1>
+                <p className="text-center p-4 italic">
+                    Contratação realizada com sucesso
+                </p>
+            </div>
+        );
+    }
+
+
+    if(isPending)
+        return <CenteredSpinner />
 
     return (
         <>
