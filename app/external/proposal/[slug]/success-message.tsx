@@ -19,7 +19,7 @@ export default function SuccessMessage({
             >
                 {product}
             </h1>
-            <p className="text-center p-4 italic">
+            <p className="text-center text-green-900 p-4 italic">
                 {message}
             </p>
         </div>

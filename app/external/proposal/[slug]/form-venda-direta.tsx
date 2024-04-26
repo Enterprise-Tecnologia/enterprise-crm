@@ -25,6 +25,7 @@ import { postAddLead } from "@/services/proposal-client-side";
 import CenteredSpinner from "./_components/centered-spinner";
 import SuccessMessage from "./success-message";
 import { cn } from "@/lib/utils";
+import { getAddressByCEP } from "@/services/viacep-client-side";
 
 export default function FormVendaDireta({
     product,
@@ -87,28 +88,39 @@ export default function FormVendaDireta({
     // }
 
     const OnSubmitPersonalStep = (data: DirectSalePersonalDataInput) => {
-        formPersonal.trigger();
-        if(formPersonal.formState.isValid) setStep(2);
-        formPayment.setValue(
-            'document', data.document, { shouldTouch: true }
-        );
+        formPersonal.trigger().then(result => {
+
+            if(!result) return;
+
+            if(formPersonal.formState.isValid) setStep(2);
+            formPayment.setValue(
+                'document', data.document, { shouldTouch: true }
+            );
+        });
     };
 
     const OnSubmitAddressStep = (data: DirectSaleAddressDataInput) => {
-        formAddress.trigger();
-        if(formAddress.formState.isValid) setStep(3);
+        formAddress.trigger().then(result => {
+            if(!result) return;
+
+            if(formAddress.formState.isValid) setStep(3);
+        });
     };
 
     const OnSubmitPaymentStep = (data: DirectSalePaymentDataInput) => {
-        formPayment.trigger();
-        
-        if(!formPayment.formState.isValid) return;
+
+        formPayment.trigger().then(result => {
+            if(!result || !formPayment.formState.isValid) return;
+        });
         
         formSubmit.setValue(`personalData`, formPersonal.getValues());
         formSubmit.setValue(`addressesData`, [formAddress.getValues()]);
         formSubmit.setValue(`paymentData`, formPayment.getValues());
         formSubmit.setValue(`productData`, formProduct.getValues());
-        formSubmit.trigger();
+
+        formSubmit.trigger().then(result => {
+            if(!result) return;
+        });
 
         const validacaoEsquema = DirectSaleSchema.safeParse(formSubmit.getValues());
 
@@ -156,7 +168,7 @@ export default function FormVendaDireta({
         setStep(page);
     };
 
-    const onChangeCEP = (cep: String | undefined):void => {
+    const onChangeCEP = (cep: string | undefined):void => {
 
         if (!cep) return;
 
@@ -166,50 +178,40 @@ export default function FormVendaDireta({
             return;
         }
 
-	    fetch(`https://viacep.com.br/ws/${cep}/json`)
-		    .then(response => response.json())
-			.then(data => {
-
-				if (data.erro) return;
+        getAddressByCEP(cep)
+            .then(response => {
+                if (response.erro) return;
 
                 const state = states.find(
-                    state => state.abv === data.uf
+                    state => state.abv === response.uf
                 )?.code;
 
-                console.log(state);
-
                 formAddress.setValue(
-                    'street', data.logradouro, { shouldTouch: true }
+                    'street', response.logradouro, { shouldTouch: true }
                 );
                 // formAddress.setValue(
                 //     'number', '', { shouldTouch: true }
                 // );
                 formAddress.setValue(
-                    'neighborhood', data.bairro, { shouldTouch: true }
+                    'neighborhood', response.bairro, { shouldTouch: true }
                 );
                 formAddress.setValue(
-                    'city', data.localidade, { shouldTouch: true }
+                    'city', response.localidade, { shouldTouch: true }
                 );
                 formAddress.setValue(
                     'state', state ?? '13', { shouldTouch: true }
                 );
 
                 formAddress.trigger();
-                
             })
-            // .then(data => {
-            //     if (data) {
-            //         setValue('endereco', data, { shouldTouch: true })
-            //         trigger(['endereco'], { shouldFocus: true })
-            //     }
-            // })
-            .catch(err => {console.error(err);console.log(err);})
+            .catch(err => {console.error(err)});
+
     };
 
     if(isAlreadySubmited)
         return <SuccessMessage
                     product={product.name}
-                    message={`Contratação realizada com sucesso`}
+                    message={`Contratação efetuada com sucesso`}
                 />
 
     if(isPending)

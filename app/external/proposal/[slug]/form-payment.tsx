@@ -81,28 +81,6 @@ export default function FormPayment({
                             </div>
                         </div>
 
-                        {/* <div className="flex justify-between space-x-8">
-                            <div className="w-full">
-                                <FormFieldInput
-                                    formControl={formAddress.control}
-                                    name={`neighborhood`}
-                                    label={`Bairro`}
-                                    placeholder={`Bairro`}
-                                    maxLength={100}
-                                />
-                            </div>
-
-                            <div className="w-full">
-                                <FormFieldInput
-                                    formControl={formAddress.control}
-                                    name={`city`}
-                                    label={`Cidade`}
-                                    placeholder={`Cidade`}
-                                    maxLength={100}
-                                />
-                            </div>
-                        </div> */}
-
                         <FormFieldCheckbox
                             formControl={formPayment.control}
                             name={`accept`}

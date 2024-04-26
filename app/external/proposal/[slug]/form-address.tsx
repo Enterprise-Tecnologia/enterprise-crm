@@ -25,12 +25,6 @@ export default function FormAddress({
 
     return (
         <>
-            {/* <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
-                <code className="text-white">{JSON.stringify(formPersonal.formState.errors, null, 2)}</code>
-            </pre>
-            <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
-                <code className="text-white">{JSON.stringify(formPersonal.getValues(), null, 2)}</code>
-            </pre> */}
 
             {/* <div className={`w-full flex justify-center`}> */}
                 <Form {...formAddress}>
