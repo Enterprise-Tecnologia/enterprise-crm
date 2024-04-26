@@ -1,5 +1,12 @@
 import { Input } from "@/components/ui/input";
-import { FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "../ui/form";
+import {
+    FormControl,
+    FormDescription,
+    FormField,
+    FormItem,
+    FormLabel,
+    FormMessage
+} from "../ui/form";
 import { Control } from "react-hook-form";
 import { InputHTMLAttributes } from "react";
 
@@ -9,6 +16,7 @@ interface FormFieldInputProps extends InputHTMLAttributes<HTMLInputElement> {
     formControl: Control<any>,
     description?: string,
     fnMask?: Function
+    fnOnBlur?: Function
 };
 
 export function FormFieldInput(
@@ -18,6 +26,7 @@ export function FormFieldInput(
         formControl,
         description,
         fnMask,
+        fnOnBlur,
         ...rest
     }
     : FormFieldInputProps
@@ -28,14 +37,26 @@ export function FormFieldInput(
             control={formControl}
             name={name}
             render={({ field }) => (
+                // fnMask(event.target.value))
                 <FormItem>
                     <FormLabel>{label}</FormLabel>
                     <FormControl>
                         <Input
-                            {...field}
                             {...rest}
-                            onChange={(event) => fnMask
-                                && field.onChange(fnMask(event.target.value))}
+                            {...field}
+                            onChange={(event) => [
+                                    fnMask
+                                        ? field.onChange(fnMask(event.target.value))
+                                        : field.onChange(event),
+                                    fnOnBlur
+                                        ? fnOnBlur(event.target.value)
+                                        : undefined
+                                ]
+                            }
+                            // onBlur={(event) => fnOnBlur
+                            //     ? fnOnBlur(field.value)
+                            //     : undefined
+                            // }
                         />
                     </FormControl>
                     {description && (

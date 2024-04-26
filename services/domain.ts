@@ -2,8 +2,7 @@ import {
     ApiResponseType
 } from "../interfaces/api-response";
 
-// const baseUrl = `https://enterprise-crm-api.azurewebsites.net/v1`;
-const baseUrl = `https://localhost:7013/v1`;
+const baseUrl = process.env.API_BASE_URL ?? '';
 
 export const getDomainByGroup = async(group: string): Promise<ApiResponseType> => {
 

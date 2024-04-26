@@ -3,6 +3,7 @@ import FormVendaDireta from "./form-venda-direta";
 import { getProductBySlug } from "@/services/product";
 import { getDomainByGroup } from "@/services/domain";
 import { Product } from "@/types/product";
+import { Domain } from "@/types/domain";
 
 export default async function Page(
     {params: {slug}}: {params: {slug: string}}
@@ -15,25 +16,34 @@ export default async function Page(
             <div>Nenhum parametro localizado</div>
     )
 
-    const [states, genders] = await Promise.all([
+    const [states, genders, maritials] = await Promise.all([
         getDomainByGroup('state'),
-        getDomainByGroup('gender')
+        getDomainByGroup('gender'),
+        getDomainByGroup('maritial')
     ]);
 
-
     const statesList = states.success
-        && states.data.map((x:any) => {
+        && states.data.map((state:Domain) => {
         return {
-            description: x.description,
-            code: x.id
+            description: state.description,
+            code: `${state.id}`,
+            abv: state.code
         };
     });
 
     const gendersList = genders.success
-        && genders.data.map((x:any) => {
+        && genders.data.map((gender:Domain) => {
         return {
-            description: x.description,
-            code: x.id
+            description: gender.description,
+            code: `${gender.id}`
+        };
+    });
+
+    const maritialsList = maritials.success
+        && maritials.data.map((maritial:Domain) => {
+        return {
+            description: maritial.description,
+            code: `${maritial.id}`
         };
     });
 
@@ -44,6 +54,7 @@ export default async function Page(
                     product={data as Product}
                     states={statesList}
                     genders={gendersList}
+                    maritialStatus={maritialsList}
                 />
             {/* </Suspense> */}
         </>
