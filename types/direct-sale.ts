@@ -206,11 +206,11 @@ export const DirectSalePersonalDataSchema = z.object({
         }).email({
             message: `O email é inválido`
         }),
-    gender: z.coerce.number({
+    gender: z.string({
         required_error: `Sexo é obrigatório`,
         invalid_type_error: `Sexo é obrigatório`
     }),
-    maritialState: z.coerce.number({
+    maritialState: z.string({
         required_error: `Estado civil é obrigatório`,
         invalid_type_error: `Estado civil é obrigatório`
     }),

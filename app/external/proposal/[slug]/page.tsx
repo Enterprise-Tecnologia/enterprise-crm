@@ -35,7 +35,8 @@ export default async function Page(
         && genders.data.map((gender:Domain) => {
         return {
             description: gender.description,
-            code: `${gender.id}`
+            code: `${gender.id}`,
+            abv: gender.code
         };
     });
 
@@ -43,7 +44,8 @@ export default async function Page(
         && maritials.data.map((maritial:Domain) => {
         return {
             description: maritial.description,
-            code: `${maritial.id}`
+            code: `${maritial.id}`,
+            abv: maritial.code
         };
     });
 

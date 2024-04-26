@@ -8,16 +8,21 @@ import {
     normalizeExpiresCard
 } from "@/lib/masks";
 import { DirectSalePaymentDataInput } from "@/types/direct-sale";
+import { ChevronLeftCircleIcon, CircleCheckBigIcon } from "lucide-react";
 import {
     SubmitHandler,
     UseFormReturn
 } from "react-hook-form";
+import Summary from "./summary";
+import { Product } from "@/types/product";
 
 export default function FormPayment({
+    product,
     formPayment,
     fnSubmit,
     fnNavigation
 }:{
+    product: Product,
     formPayment: UseFormReturn<DirectSalePaymentDataInput>,
     fnSubmit: SubmitHandler<DirectSalePaymentDataInput>
     fnNavigation: Function
@@ -34,49 +39,60 @@ export default function FormPayment({
                         className={`flex flex-col justify-center w-full space-y-4`}
                     >
 
-                        <div className="flex justify-between space-x-4">
+                        <div className="flex flex-row justify-between">
                             <div className="w-full">
-                                <FormFieldInput
-                                    formControl={formPayment.control}
-                                    name={`cardNumber`}
-                                    label={`Número do cartão`}
-                                    placeholder={`9999 9999 9999 9999`}
-                                    fnMask={normalizeCardNumber}
-                                    maxLength={19}
-                                />
-                            </div>
-                            
-                            <div className="w-full">
-                                <FormFieldInput
-                                    formControl={formPayment.control}
-                                    name={`document`}
-                                    label={`Titular do cartão de crédito`}
-                                    placeholder={`999.999.999-99`}
-                                    fnMask={normalizeCpfNumber}
-                                    maxLength={14}
-                                />
-                            </div>
-                        </div>
+                                <div className="flex justify-between space-x-4">
+                                    <div className="w-full">
+                                        <FormFieldInput
+                                            formControl={formPayment.control}
+                                            name={`cardNumber`}
+                                            label={`Número do cartão`}
+                                            placeholder={`9999 9999 9999 9999`}
+                                            fnMask={normalizeCardNumber}
+                                            maxLength={19}
+                                        />
+                                    </div>
+                                    
+                                    <div className="w-full">
+                                        <FormFieldInput
+                                            formControl={formPayment.control}
+                                            name={`document`}
+                                            label={`CPF do titular`}
+                                            placeholder={`999.999.999-99`}
+                                            fnMask={normalizeCpfNumber}
+                                            maxLength={14}
+                                        />
+                                    </div>
+                                </div>
 
-                        <div className="flex justify-between space-x-4">
-                            <div className="w-full">
-                                <FormFieldInput
-                                    formControl={formPayment.control}
-                                    name={`cardExpires`}
-                                    label={`Data expiração`}
-                                    placeholder={`mm/aa`}
-                                    fnMask={normalizeExpiresCard}
-                                    maxLength={5}
-                                />
+                                <div className="flex justify-between space-x-4">
+                                    <div className="w-full">
+                                        <FormFieldInput
+                                            formControl={formPayment.control}
+                                            name={`cardExpires`}
+                                            label={`Data de expiração`}
+                                            placeholder={`mm/aa`}
+                                            fnMask={normalizeExpiresCard}
+                                            maxLength={5}
+                                        />
+                                    </div>
+                                    
+                                    <div className="w-full">
+                                        <FormFieldInput
+                                            formControl={formPayment.control}
+                                            name={`cardSecurity`}
+                                            label={`Código de segurança`}
+                                            placeholder={`CVV`}
+                                            maxLength={3}
+                                        />
+                                    </div>
+                                </div>
                             </div>
-                            
-                            <div className="w-full">
-                                <FormFieldInput
-                                    formControl={formPayment.control}
-                                    name={`cardSecurity`}
-                                    label={`Código de segurança do cartão de crédito`}
-                                    placeholder={`CVV`}
-                                    maxLength={3}
+                            <div className="min-w[450px] p-6">
+                                <Summary
+                                    product={product}
+                                    description={undefined}
+                                    payment={formPayment}
                                 />
                             </div>
                         </div>
@@ -84,7 +100,7 @@ export default function FormPayment({
                         <FormFieldCheckbox
                             formControl={formPayment.control}
                             name={`accept`}
-                            label={`Termo de aceite`}
+                            label={`Termo de adesão`}
                             description={
                                 `Aceitando o termo acima você está concordando...`
                             }
@@ -97,6 +113,7 @@ export default function FormPayment({
                                 onClick={() => fnNavigation(2)}
                                 variant={`outline`}
                             >
+                                <ChevronLeftCircleIcon size={18} className="m-4" />
                                 Anterior
                             </Button>
 
@@ -105,6 +122,7 @@ export default function FormPayment({
                                 className={`w-2/3`}
                             >
                                 Contratar
+                                <CircleCheckBigIcon size={18} className="m-4" />
                             </Button>
                         </div>
                     </form>

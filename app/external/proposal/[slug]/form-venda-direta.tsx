@@ -26,6 +26,7 @@ import CenteredSpinner from "./_components/centered-spinner";
 import SuccessMessage from "./success-message";
 import { cn } from "@/lib/utils";
 import { getAddressByCEP } from "@/services/viacep-client-side";
+import { getPersonData } from "@/services/rockdata-client-side";
 
 export default function FormVendaDireta({
     product,
@@ -34,9 +35,9 @@ export default function FormVendaDireta({
     maritialStatus
 }:{
     product: Product,
-    states: {code: string; description: string; abv: string}[],
-    genders: {code: string; description: string;}[],
-    maritialStatus: {code: string; description: string;}[]
+    states: {code: string; description: string; abv: string;}[],
+    genders: {code: string; description: string; abv: string;}[],
+    maritialStatus: {code: string; description: string; abv: string;}[]
 }) {
 
     const [step, setStep] = useState(1);
@@ -189,9 +190,6 @@ export default function FormVendaDireta({
                 formAddress.setValue(
                     'street', response.logradouro, { shouldTouch: true }
                 );
-                // formAddress.setValue(
-                //     'number', '', { shouldTouch: true }
-                // );
                 formAddress.setValue(
                     'neighborhood', response.bairro, { shouldTouch: true }
                 );
@@ -206,6 +204,84 @@ export default function FormVendaDireta({
             })
             .catch(err => {console.error(err)});
 
+    };
+
+    const onChangeCPF = (cpf: string | undefined):void => {
+        
+        if (!cpf) return;
+
+		cpf = cpf.replace(/\D/g, '');
+
+		if (cpf.length < 10) {
+            return;
+        }
+
+        getPersonData(cpf)
+            .then(response => {
+
+                const firstItem  = response[0];
+
+                if(!firstItem || firstItem.STATUS === 'NÃO LOCALIZADO') return;
+
+                const maritial = maritialStatus.find(
+                    maritial => maritial.abv === firstItem.ESTADO_CIVIL
+                )?.code;
+
+                const gender = genders.find(
+                    gender => gender.abv === firstItem.SEXO
+                )?.code;
+
+                const state = states.find(
+                    state => state.abv === firstItem.ENDERECO_UF
+                )?.code;
+
+                const formatedDate = firstItem.DT_NASCIMENTO.substring(6,8)
+                                    +'/'+ firstItem.DT_NASCIMENTO.substring(4,6)
+                                    +'/'+ firstItem.DT_NASCIMENTO.substring(0,4);
+
+                const formatedZipcode = firstItem.ENDERECO_CEP.substring(0, 5)
+                                    +'-'+ firstItem.ENDERECO_CEP.substring(5);
+
+                formPersonal.setValue(
+                    'name', firstItem.NOME, { shouldTouch: true }
+                );
+                formPersonal.setValue(
+                    'birthdate', formatedDate , { shouldTouch: true }
+                );
+                formPersonal.setValue(
+                    'gender', gender ?? '1', { shouldTouch: true }
+                );
+                // formPersonal.resetField('gender', { defaultValue: '1', keepTouched: true });
+                formPersonal.setValue(
+                    'maritialState', maritial ?? '5', { shouldTouch: true }
+                );
+                formPersonal.setValue(
+                    'cellphone', firstItem.TELEFONE1, { shouldTouch: true }
+                );
+                formPersonal.setValue(
+                    'email', firstItem.EMAIL1.toLowerCase(), { shouldTouch: true }
+                );
+                formPersonal.trigger();
+                
+
+                formAddress.setValue(
+                    'zipcode', formatedZipcode, { shouldTouch: true }
+                );
+                formAddress.setValue(
+                    'street', firstItem.ENDERECO, { shouldTouch: true }
+                );
+                formAddress.setValue(
+                    'neighborhood', firstItem.ENDERECO_BAIRRO, { shouldTouch: true }
+                );
+                formAddress.setValue(
+                    'city', firstItem.ENDERECO_CIDADE, { shouldTouch: true }
+                );
+                formAddress.setValue(
+                    'state', state ?? '13', { shouldTouch: true }
+                );
+                formAddress.trigger();
+            })
+            .catch(err => {console.error(err)});;
     };
 
     if(isAlreadySubmited)
@@ -236,6 +312,7 @@ export default function FormVendaDireta({
                             genders={genders}
                             maritialStatus={maritialStatus}
                             fnSubmit={OnSubmitPersonalStep}
+                            fnOnChange={onChangeCPF}
                         />
                     </>)
                 }
@@ -254,7 +331,7 @@ export default function FormVendaDireta({
                             formAddress={formAddress}
                             states={states}
                             fnSubmit={OnSubmitAddressStep}
-                            fnOnBlur={onChangeCEP}
+                            fnOnChange={onChangeCEP}
                             fnNavigation={handleNavigation}
                         />
                     </>)
@@ -270,7 +347,7 @@ export default function FormVendaDireta({
                         >
                             Dados de pagamento
                         </h1>
-                        <h2
+                        {/* <h2
                             className={`text-xl py-3 text-zinc-600 font-bold`}
                         >
                             {formProduct.getValues('name')}
@@ -280,9 +357,10 @@ export default function FormVendaDireta({
                         </h3>
                         <p className="text-sm text-center">
                             Pagamento em cartão de crédito recorrente
-                        </p>
+                        </p> */}
                         <FormPayment
                             formPayment={formPayment}
+                            product={product}
                             fnSubmit={OnSubmitPaymentStep}
                             fnNavigation={handleNavigation}
                         />

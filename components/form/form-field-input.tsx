@@ -16,7 +16,7 @@ interface FormFieldInputProps extends InputHTMLAttributes<HTMLInputElement> {
     formControl: Control<any>,
     description?: string,
     fnMask?: Function
-    fnOnBlur?: Function
+    fnOnChange?: Function
 };
 
 export function FormFieldInput(
@@ -26,7 +26,7 @@ export function FormFieldInput(
         formControl,
         description,
         fnMask,
-        fnOnBlur,
+        fnOnChange,
         ...rest
     }
     : FormFieldInputProps
@@ -48,8 +48,8 @@ export function FormFieldInput(
                                     fnMask
                                         ? field.onChange(fnMask(event.target.value))
                                         : field.onChange(event),
-                                    fnOnBlur
-                                        ? fnOnBlur(event.target.value)
+                                    fnOnChange
+                                        ? fnOnChange(event.target.value)
                                         : undefined
                                 ]
                             }
