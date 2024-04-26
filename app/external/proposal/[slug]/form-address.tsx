@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Form } from "@/components/ui/form";
 import { normalizeCepNumber } from "@/lib/masks";
 import { DirectSaleAddressDataInput } from "@/types/direct-sale";
+import { ChevronLeftCircleIcon, ChevronRightCircleIcon } from "lucide-react";
 import {
     SubmitHandler,
     UseFormReturn
@@ -14,13 +15,13 @@ export default function FormAddress({
     states,
     fnSubmit,
     fnNavigation,
-    fnOnBlur
+    fnOnChange
 }:{
     formAddress: UseFormReturn<DirectSaleAddressDataInput>,
     states: {code: string; description: string;}[],
     fnSubmit: SubmitHandler<DirectSaleAddressDataInput>,
     fnNavigation: Function
-    fnOnBlur?: Function,
+    fnOnChange?: Function,
 }) {
 
     return (
@@ -45,7 +46,7 @@ export default function FormAddress({
                                     label={`CEP`}
                                     placeholder={`99999-999`}
                                     fnMask={normalizeCepNumber}
-                                    fnOnBlur={fnOnBlur}
+                                    fnOnChange={fnOnChange}
                                     maxLength={9}
                                 />
                             </div>
@@ -118,6 +119,7 @@ export default function FormAddress({
                                 onClick={() => fnNavigation(1)}
                                 variant={`outline`}
                             >
+                                <ChevronLeftCircleIcon size={18} className="m-4" />
                                 Anterior
                             </Button>
 
@@ -126,6 +128,7 @@ export default function FormAddress({
                                 className={`w-2/3`}
                             >
                                 Próximo
+                                <ChevronRightCircleIcon size={18} className="m-4" />
                             </Button>
                         </div>
                     </form>

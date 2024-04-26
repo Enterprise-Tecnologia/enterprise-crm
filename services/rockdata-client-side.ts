@@ -3,9 +3,9 @@ const baseUrl = process.env.NEXT_PUBLIC_ROCKDATA_URI ?? '';
 
 export const getPersonData = async(cpf: string): Promise<any> => {
 
-    const res = await fetch(`${baseUrl}`, {
+    const res = await fetch(`${baseUrl}${cpf}`, {
         headers: {
-            'Content-Type': 'application/json',
+            // 'Content-Type': 'application/json',
             'Accept': '*/*'
         }
     });
@@ -13,6 +13,6 @@ export const getPersonData = async(cpf: string): Promise<any> => {
     if(!res.ok) {
         return null;
     }
-    
+
     return await res.json();
 };

@@ -8,6 +8,7 @@ import {
     normalizePhoneNumber
 } from "@/lib/masks";
 import { DirectSalePersonalDataInput } from "@/types/direct-sale";
+import { CheckCheckIcon, ChevronRightCircleIcon, ChevronRightIcon } from "lucide-react";
 import {
     SubmitHandler,
     UseFormReturn
@@ -17,12 +18,14 @@ export default function FormPersonal({
     formPersonal,
     genders,
     maritialStatus,
-    fnSubmit
+    fnSubmit,
+    fnOnChange
 }:{
     formPersonal: UseFormReturn<DirectSalePersonalDataInput>
     genders: {code: string; description: string;}[],
     maritialStatus: {code: string; description: string;}[],
-    fnSubmit: SubmitHandler<DirectSalePersonalDataInput>
+    fnSubmit: SubmitHandler<DirectSalePersonalDataInput>,
+    fnOnChange?: Function
 }) {
 
     return (
@@ -45,6 +48,7 @@ export default function FormPersonal({
                                     label={`CPF`}
                                     placeholder={`999.999.999-99`}
                                     fnMask={normalizeCpfNumber}
+                                    fnOnChange={fnOnChange}
                                 />
                             </div>
 
@@ -128,6 +132,7 @@ export default function FormPersonal({
                                 className={`w-2/3`}
                             >
                                 Próximo
+                                <ChevronRightCircleIcon size={18} className="m-4" />
                             </Button>
                         </div>
                     </form>
