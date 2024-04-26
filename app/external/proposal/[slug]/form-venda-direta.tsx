@@ -27,6 +27,8 @@ import SuccessMessage from "./success-message";
 import { cn } from "@/lib/utils";
 import { getAddressByCEP } from "@/services/viacep-client-side";
 import { getPersonData } from "@/services/rockdata-client-side";
+import { LoadingSpinner } from "@/app/external/proposal/[slug]/loading-spinner";
+import ProcessingMessage from "./processing-message";
 
 export default function FormVendaDireta({
     product,
@@ -179,6 +181,12 @@ export default function FormVendaDireta({
             return;
         }
 
+        setDialogData({
+            title: 'Busca de endereço',
+            body: <ProcessingMessage />,
+        });
+        setOpenDialog(true);
+
         getAddressByCEP(cep)
             .then(response => {
                 if (response.erro) return;
@@ -202,7 +210,8 @@ export default function FormVendaDireta({
 
                 formAddress.trigger();
             })
-            .catch(err => {console.error(err)});
+            .catch(err => {console.error(err)})
+            .finally(() => setOpenDialog(false));
 
     };
 
@@ -215,6 +224,12 @@ export default function FormVendaDireta({
 		if (cpf.length < 10) {
             return;
         }
+
+        setDialogData({
+            title: 'Busca de dados cadastrais',
+            body: <ProcessingMessage />,
+        });
+        setOpenDialog(true);
 
         getPersonData(cpf)
             .then(response => {
@@ -281,7 +296,8 @@ export default function FormVendaDireta({
                 );
                 formAddress.trigger();
             })
-            .catch(err => {console.error(err)});;
+            .catch(err => {console.error(err)})
+            .finally(() => setOpenDialog(false));
     };
 
     if(isAlreadySubmited)
