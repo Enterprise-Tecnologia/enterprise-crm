@@ -17,7 +17,10 @@ export function FormItemSelect(
         placeholder:string,
         formControl: Control<any>,
         description?: string,
-        list?: any[]
+        list?: {
+            code: string;
+            description: string
+        }[]
     }) {
 
     return (
@@ -37,7 +40,10 @@ export function FormItemSelect(
                             <SelectContent>
                                 {list && list.map(item => {
                                     return (
-                                        <SelectItem key={item.code} value={item.code}>
+                                        <SelectItem
+                                            key={item.code}
+                                            value={item.code}
+                                        >
                                             {item.description}
                                         </SelectItem>
                                     )
