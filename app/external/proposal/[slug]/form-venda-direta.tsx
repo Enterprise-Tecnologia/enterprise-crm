@@ -26,8 +26,7 @@ import CenteredSpinner from "./_components/centered-spinner";
 import SuccessMessage from "./success-message";
 import { cn } from "@/lib/utils";
 import { getAddressByCEP } from "@/services/viacep-client-side";
-import { getPersonData } from "@/services/rockdata-client-side";
-import { LoadingSpinner } from "@/app/external/proposal/[slug]/loading-spinner";
+import { getPersonTVData } from "@/services/rockdata-client-side";
 import ProcessingMessage from "./processing-message";
 
 export default function FormVendaDireta({
@@ -231,10 +230,10 @@ export default function FormVendaDireta({
         });
         setOpenDialog(true);
 
-        getPersonData(cpf)
+        getPersonTVData(cpf)
             .then(response => {
 
-                const firstItem  = response[0];
+                const firstItem  = response.data?.[0];
 
                 if(!firstItem || firstItem.STATUS === 'NÃO LOCALIZADO') return;
 
