@@ -165,11 +165,11 @@ export const DirectSalePaymentSchema = z.object({
             message: `Código de segurança do cartão é inválido`
         }),
     accept: z.boolean({
-        required_error: `É necessário aceitar o termo`,
-        invalid_type_error: 'É necessário aceitar o termpo de adesão'
+        required_error: `É necessário informar que leu e aceita os termos de adesão`,
+        invalid_type_error: `É necessário informar que leu e aceita os termos de adesão`
     })
     .refine(acpt => acpt === true, {
-        message: `É necessário aceitar o termo de adesão`
+        message: `É necessário informar que leu e aceita os termos de adesão`
     })
 });
 
