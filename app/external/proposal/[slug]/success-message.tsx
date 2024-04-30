@@ -46,7 +46,7 @@ export default function SuccessMessage({
                         )}
                         target="_blank"
                     >
-                        <FileText size={14} />
+                        <FileText size={14} className="bg-teal-900" />
                         Baixar condições gerais
                     </Link>
                 </li>
@@ -61,7 +61,7 @@ export default function SuccessMessage({
                         )}
                         target="_blank"
                     >
-                        <FileText size={14} />
+                        <FileText size={14} className="bg-teal-900" />
                         Baixar termo de adesão
                     </Link>
                 </li>
