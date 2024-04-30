@@ -141,10 +141,10 @@ export const DirectSalePaymentSchema = z.object({
     document: z.string({
             required_error: `CPF do titular é obrigatório`
         })
-        .min(14, { message: 'CPf com tamanho inválido' })
+        .min(14, { message: 'CPF com tamanho inválido' })
         // .transform(cpf => cpf.replace(/\D/g, '')}),
         .refine(cpf => isCpfValid(cpf), {
-            message: 'Cpf informado é inválido'
+            message: 'CPF informado é inválido'
         }),
     cardNumber: z.string({
             required_error: `Número do cartão é obrigatório`
@@ -165,9 +165,12 @@ export const DirectSalePaymentSchema = z.object({
             message: `Código de segurança do cartão é inválido`
         }),
     accept: z.boolean({
-        required_error: `É necessário aceitar o termo`
+        required_error: `É necessário aceitar o termo`,
+        invalid_type_error: 'É necessário aceitar o termpo de adesão'
     })
-    //.refine(acpt => console.log(acpt))
+    .refine(acpt => acpt === true, {
+        message: `É necessário aceitar o termo de adesão`
+    })
 });
 
 export const DirectSaleProductSchema = z.object({
@@ -182,10 +185,10 @@ export const DirectSalePersonalDataSchema = z.object({
     document: z.string({
             required_error: `CPF é obrigatório`
         })
-        .min(14, { message: 'CPf com tamanho inválido' })
+        .min(14, { message: 'CPF com tamanho inválido' })
         // .transform(cpf => cpf.replace(/\D/g, '')}),
         .refine(cpf => isCpfValid(cpf),
-            {message: 'Cpf informado é inválido'}),
+            {message: 'CPF informado é inválido'}),
     name: z.string({
             required_error: `Nome é obrigatório`
         })

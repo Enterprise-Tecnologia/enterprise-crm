@@ -139,7 +139,6 @@ export default function FormVendaDireta({
                         body: result.message,
                     });
                     setOpenDialog(true);
-                    setIsPending(isPending => !isPending);
                     return;
                 }
 
@@ -220,7 +219,7 @@ export default function FormVendaDireta({
 
 		cpf = cpf.replace(/\D/g, '');
 
-		if (cpf.length < 10) {
+		if (cpf.length < 11) {
             return;
         }
 
@@ -229,10 +228,10 @@ export default function FormVendaDireta({
             body: <ProcessingMessage />,
         });
         setOpenDialog(true);
+        clearFormData();
 
         getPersonTVData(cpf)
             .then(response => {
-
                 const firstItem  = response.data?.[0];
 
                 if(!firstItem || firstItem.STATUS === 'NÃO LOCALIZADO') return;
@@ -265,7 +264,6 @@ export default function FormVendaDireta({
                 formPersonal.setValue(
                     'gender', gender ?? '1', { shouldTouch: true }
                 );
-                // formPersonal.resetField('gender', { defaultValue: '1', keepTouched: true });
                 formPersonal.setValue(
                     'maritialState', maritial ?? '5', { shouldTouch: true }
                 );
@@ -299,10 +297,62 @@ export default function FormVendaDireta({
             .finally(() => setOpenDialog(false));
     };
 
+    const clearFormData = (): void => {
+
+        formPersonal.setValue(
+            'name', ''
+        );
+        formPersonal.setValue(
+            'birthdate', ''
+        );
+        formPersonal.setValue(
+            'gender', '',
+        );
+        formPersonal.setValue(
+            'maritialState', ''
+        );
+        formPersonal.setValue(
+            'cellphone', ''
+        );
+        formPersonal.setValue(
+            'email', ''
+        );
+        formPersonal.trigger();
+        
+        formAddress.setValue(
+            'zipcode', ''
+        );
+        formAddress.setValue(
+            'street', ''
+        );
+        formAddress.setValue(
+            'neighborhood', ''
+        );
+        formAddress.setValue(
+            'city', ''
+        );
+        formAddress.setValue(
+            'state', ''
+        );
+        formAddress.trigger();
+    };
+
+    const linkAdesaoPdf = product.name
+                    .indexOf('Individual') > 0
+                        ? 'https://drive.google.com/file/d/1UDdz-TSB_3Jy3Xav2pPGflIY7E9A_RlH/view?usp=sharing'
+                        : 'https://drive.google.com/file/d/1EY4s4BSvy5JonXiW037GpBJQhaZ-p73j/view?usp=sharing';
+
+    const linkCondicoesPdf = product.name
+                        .indexOf('Individual') > 0
+                            ? 'https://drive.google.com/file/d/1PMxuMEHLvUMByy9B-EBoFuOXttLp8L5h/view?usp=sharing'
+                            : 'https://drive.google.com/file/d/1AMz13jBrA4fZ0OTLaNIVvPZdbKEgcrkL/view?usp=sharing';
+
     if(isAlreadySubmited)
         return <SuccessMessage
                     product={product.name}
-                    message={`Contratação efetuada com sucesso`}
+                    message={`Encaminhamos a sua solicitação a Rede Mais Saúde que entrara em contado através do e-mail informado no cadastro.`}
+                    linkAdesao={linkAdesaoPdf}
+                    linkCondicoes={linkCondicoesPdf}
                 />
 
     if(isPending)
@@ -316,7 +366,7 @@ export default function FormVendaDireta({
                     (<>
                         <h1
                             className={cn(
-                                `text-2xl p-4 my-3 text-zinc-600 font-bold shadow-lg rounded-b-xl`,
+                                `text-2xl p-4 my-3 text-teal-600 font-bold shadow-lg rounded-b-xl`,
                                 `bg-gradient-to-b from-yellow-50 to-zinc-50`
                             )}
                         >
@@ -336,7 +386,7 @@ export default function FormVendaDireta({
                     (<>
                         <h1
                             className={cn(
-                                `text-2xl p-4 my-3 text-zinc-600 font-bold shadow-lg rounded-b-xl`,
+                                `text-2xl p-4 my-3 text-teal-600 font-bold shadow-lg rounded-b-xl`,
                                 `bg-gradient-to-b from-yellow-50 to-zinc-50`
                             )}
                         >
@@ -356,7 +406,7 @@ export default function FormVendaDireta({
                     (<>
                         <h1
                             className={cn(
-                                `text-2xl p-4 my-3 text-zinc-600 font-bold shadow-lg rounded-b-xl`,
+                                `text-2xl p-4 my-3 text-teal-600 font-bold shadow-lg rounded-b-xl`,
                                 `bg-gradient-to-b from-yellow-50 to-zinc-50`
                             )}
                         >
@@ -378,6 +428,8 @@ export default function FormVendaDireta({
                             product={product}
                             fnSubmit={OnSubmitPaymentStep}
                             fnNavigation={handleNavigation}
+                            linkAdesao={linkAdesaoPdf}
+                            linkCondicoes={linkCondicoesPdf}
                         />
                     </>)
                 }

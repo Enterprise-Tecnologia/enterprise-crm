@@ -21,7 +21,10 @@ export default function Summary({
     };
 
     return (
-        <div className="bg-gradient-to-b from-yellow-50 to-zinc-50 rounded-md p-2 flex flex-col shadow-md">
+        <div className={
+                "bg-gradient-to-b from-yellow-50 to-zinc-50 rounded-md p-2 flex flex-col shadow-md hover:ring-1 ring-teal-100"
+            }
+        >
             <div className="flex flex-col w-full">
                 <h2 className="text-center text-xl font-bold text-zinc-500">
                     {product.name}
