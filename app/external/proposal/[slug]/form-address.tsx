@@ -37,7 +37,7 @@ export default function FormAddress({
                         className={`flex flex-col justify-center w-full space-y-4`}
                     >
 
-                        <div className="flex justify-between space-x-4">
+                        <div className="flex flex-col sm:flex-row justify-between sm:space-x-4">
 
                             <div className="w-full">
                                 <FormFieldInput
@@ -63,7 +63,7 @@ export default function FormAddress({
                             
                         </div>
 
-                        <div className="flex justify-between space-x-4">
+                        <div className="flex flex-col sm:flex-row justify-between sm:space-x-4">
                             
                             <div className="w-full">
                                 <FormFieldInput
@@ -87,7 +87,7 @@ export default function FormAddress({
 
                         </div>
 
-                        <div className="flex justify-between space-x-4">
+                        <div className="flex flex-col sm:flex-row justify-between sm:space-x-4">
 
                             <div className="w-full">
                                 <FormFieldInput
@@ -125,7 +125,7 @@ export default function FormAddress({
 
                             <Button
                                 type="submit"
-                                className={`w-2/3`}
+                                className={`w-2/3 bg-[#199185] hover:bg-[#40aa9f]`}
                             >
                                 Próximo
                                 <ChevronRightCircleIcon size={18} className="m-4" />
