@@ -8,25 +8,31 @@ import {
     normalizeExpiresCard
 } from "@/lib/masks";
 import { DirectSalePaymentDataInput } from "@/types/direct-sale";
-import { ChevronLeftCircleIcon, CircleCheckBigIcon } from "lucide-react";
+import { ChevronLeftCircleIcon, CircleCheckBigIcon, FileTextIcon } from "lucide-react";
 import {
     SubmitHandler,
     UseFormReturn
 } from "react-hook-form";
 import Summary from "./summary";
 import { Product } from "@/types/product";
+import Link from "next/link";
 
 export default function FormPayment({
     product,
     formPayment,
     fnSubmit,
-    fnNavigation
+    fnNavigation,
+    linkAdesao,
+    linkCondicoes
 }:{
     product: Product,
     formPayment: UseFormReturn<DirectSalePaymentDataInput>,
     fnSubmit: SubmitHandler<DirectSalePaymentDataInput>
-    fnNavigation: Function
+    fnNavigation: Function,
+    linkAdesao?: string;
+    linkCondicoes?: string;
 }) {
+
     return (
         <>
             {/* <div className={`w-full flex justify-center`}> */}
@@ -39,9 +45,9 @@ export default function FormPayment({
                         className={`flex flex-col justify-center w-full space-y-4`}
                     >
 
-                        <div className="flex flex-row justify-between">
+                        <div className="flex md:flex-row flex-col justify-between">
                             <div className="w-full">
-                                <div className="flex justify-between space-x-4">
+                                <div className="flex flex-col sm:flex-row justify-between sm:space-x-4">
                                     <div className="w-full">
                                         <FormFieldInput
                                             formControl={formPayment.control}
@@ -65,7 +71,7 @@ export default function FormPayment({
                                     </div>
                                 </div>
 
-                                <div className="flex justify-between space-x-4">
+                                <div className="flex flex-col sm:flex-row justify-between sm:space-x-4">
                                     <div className="w-full">
                                         <FormFieldInput
                                             formControl={formPayment.control}
@@ -88,7 +94,7 @@ export default function FormPayment({
                                     </div>
                                 </div>
                             </div>
-                            <div className="min-w[450px] p-6">
+                            <div className="min-w-[350px] md:pl-4 md:pt-4 py-4">
                                 <Summary
                                     product={product}
                                     description={undefined}
@@ -97,10 +103,27 @@ export default function FormPayment({
                             </div>
                         </div>
 
+                        <div className="flex flex-row space-x-1">
+                            <FileTextIcon
+                                size={24}
+                                color="teal"
+                            />
+                            <Link
+                                href={linkAdesao ?? '#'}
+                                target={`_blank`}
+                            >
+                                <span
+                                    className="text-teal-600 hover:underline"
+                                >
+                                    Termo de Adesão
+                                </span>
+                            </Link>
+                        </div>
+
                         <FormFieldCheckbox
                             formControl={formPayment.control}
                             name={`accept`}
-                            label={`Termo de adesão`}
+                            label={`Li e aceito o termos constantes no termo de adesão`}
                             description={
                                 `Aceitando o termo acima você está concordando...`
                             }
@@ -119,7 +142,7 @@ export default function FormPayment({
 
                             <Button
                                 type="submit"
-                                className={`w-2/3`}
+                                className={`w-2/3 bg-[#199185] hover:bg-[#40aa9f]`}
                             >
                                 Contratar
                                 <CircleCheckBigIcon size={18} className="m-4" />
