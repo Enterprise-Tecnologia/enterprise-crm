@@ -429,7 +429,6 @@ export default function FormVendaDireta({
                             fnSubmit={OnSubmitPaymentStep}
                             fnNavigation={handleNavigation}
                             linkAdesao={linkAdesaoPdf}
-                            linkCondicoes={linkCondicoesPdf}
                         />
                     </>)
                 }
