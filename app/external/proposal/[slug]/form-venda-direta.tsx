@@ -339,8 +339,8 @@ export default function FormVendaDireta({
 
     const linkAdesaoPdf = product.name
                     .indexOf('Individual') > 0
-                        ? 'https://drive.google.com/file/d/1UDdz-TSB_3Jy3Xav2pPGflIY7E9A_RlH/view?usp=sharing'
-                        : 'https://drive.google.com/file/d/1EY4s4BSvy5JonXiW037GpBJQhaZ-p73j/view?usp=sharing';
+                        ? 'https://drive.google.com/file/d/1EY4s4BSvy5JonXiW037GpBJQhaZ-p73j/view?usp=sharing'
+                        : 'https://drive.google.com/file/d/19Mp6aqoClo0jmeA4xwnKCLCuyGn60e2Y/view?usp=sharing';
 
     const linkCondicoesPdf = product.name
                         .indexOf('Individual') > 0
