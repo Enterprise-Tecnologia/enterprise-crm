@@ -22,15 +22,13 @@ export default function FormPayment({
     formPayment,
     fnSubmit,
     fnNavigation,
-    linkAdesao,
-    linkCondicoes
+    linkAdesao
 }:{
     product: Product,
     formPayment: UseFormReturn<DirectSalePaymentDataInput>,
     fnSubmit: SubmitHandler<DirectSalePaymentDataInput>
     fnNavigation: Function,
     linkAdesao?: string;
-    linkCondicoes?: string;
 }) {
 
     return (
@@ -125,7 +123,7 @@ export default function FormPayment({
                             name={`accept`}
                             label={`Li e aceito o termos constantes no termo de adesão`}
                             description={
-                                `Aceitando o termo acima você está concordando...`
+                                `Marcando o item acima acima você está concordando com os termos descritos no documento referenciado.`
                             }
                         />
 

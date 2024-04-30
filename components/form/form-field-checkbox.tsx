@@ -3,7 +3,8 @@ import {
     FormDescription,
     FormField,
     FormItem,
-    FormLabel
+    FormLabel,
+    FormMessage
 } from "../ui/form";
 import { Control } from "react-hook-form";
 import { Checkbox } from "../ui/checkbox";
@@ -45,7 +46,9 @@ export function FormFieldCheckbox({
                                         {description}
                                     </FormDescription>
                                 )}
+                                <FormMessage />
                             </div>
+                            
                         </FormItem>
                     </>
                 )}
