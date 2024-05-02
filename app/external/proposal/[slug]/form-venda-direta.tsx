@@ -45,6 +45,7 @@ export default function FormVendaDireta({
     const [isPending, setIsPending] = useState(false);
     const [openDialog, setOpenDialog] = useState(false);
     const [isAlreadySubmited, setIsAlreadySubmited] = useState(false);
+    const [leadUid, setLeadUid] = useState<string | undefined>();
     const [dialogData, setDialogData] = useState<{
 		title: string
 		body: string | JSX.Element
@@ -147,6 +148,7 @@ export default function FormVendaDireta({
                     body: result.message,
                 });
 
+                setLeadUid(result.data.uid);
                 setOpenDialog(true);
                 formPersonal.reset();
                 formAddress.reset();
@@ -351,8 +353,8 @@ export default function FormVendaDireta({
         return <SuccessMessage
                     product={product.name}
                     message={`Encaminhamos a sua solicitação a Rede Mais Saúde que entrara em contado através do e-mail informado no cadastro.`}
-                    linkAdesao={linkAdesaoPdf}
                     linkCondicoes={linkCondicoesPdf}
+                    leadUid={leadUid}
                 />
 
     if(isPending)
