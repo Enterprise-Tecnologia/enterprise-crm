@@ -254,8 +254,10 @@ export default function FormVendaDireta({
                                     +'/'+ firstItem.DT_NASCIMENTO.substring(4,6)
                                     +'/'+ firstItem.DT_NASCIMENTO.substring(0,4);
 
-                const formatedZipcode = firstItem.ENDERECO_CEP.substring(0, 5)
-                                    +'-'+ firstItem.ENDERECO_CEP.substring(5);
+                const formatedZipcode = firstItem.ENDERECO_CEP != ''
+                                    ? firstItem.ENDERECO_CEP.substring(0, 5)
+                                        +'-'+ firstItem.ENDERECO_CEP.substring(5)
+                                    : '';
 
                 formPersonal.setValue(
                     'name', firstItem.NOME, { shouldTouch: true }
@@ -275,8 +277,7 @@ export default function FormVendaDireta({
                 formPersonal.setValue(
                     'email', firstItem.EMAIL1.toLowerCase(), { shouldTouch: true }
                 );
-                formPersonal.trigger();
-                
+                // formPersonal.trigger();
 
                 formAddress.setValue(
                     'zipcode', formatedZipcode, { shouldTouch: true }
@@ -293,7 +294,7 @@ export default function FormVendaDireta({
                 formAddress.setValue(
                     'state', state ?? '13', { shouldTouch: true }
                 );
-                formAddress.trigger();
+                // formAddress.trigger();
             })
             .catch(err => {console.error(err)})
             .finally(() => setOpenDialog(false));
@@ -319,7 +320,7 @@ export default function FormVendaDireta({
         formPersonal.setValue(
             'email', ''
         );
-        formPersonal.trigger();
+        // formPersonal.trigger();
         
         formAddress.setValue(
             'zipcode', ''
@@ -336,7 +337,7 @@ export default function FormVendaDireta({
         formAddress.setValue(
             'state', ''
         );
-        formAddress.trigger();
+        // formAddress.trigger();
     };
 
     const linkAdesaoPdf = product.name
