@@ -106,17 +106,17 @@ export const DirectSaleAddressSchema = z.object({
             required_error: `Estado é obrigatório`
         })
         .min(9, {message: `CEP com preenchimento inválido`})
-        .refine(cep => true, {message: `CEP inválido`}), // CEP validate
+        .refine(cep => cep != '', {message: `CEP inválido`}), // CEP validate
     street: z.string({
         required_error: `Endereço é obrigatório`
-    }),
+    }).refine(street => street != '', {message: `Endereço é obrigatório`}),
     number: z.string().optional(),
     neighborhood: z.string({
         required_error: `Bairro é obrigatório`
-    }),
+    }).refine(neighborhood => neighborhood != '', {message: `Bairro é obrigatório`}),
     city: z.string({
         required_error: `Cidade é obrigatório`
-    }),
+    }).refine(city => city != '', {message: `Cidade é obrigatório`}),
     state: z.string({
         required_error: `Estado é obrigatório`
     })
@@ -212,14 +212,14 @@ export const DirectSalePersonalDataSchema = z.object({
     gender: z.string({
         required_error: `Sexo é obrigatório`,
         invalid_type_error: `Sexo é obrigatório`
-    }),
+    }).refine(gender => gender != '', {message: `Sexo é obrigatório`}),
     maritialState: z.string({
         required_error: `Estado civil é obrigatório`,
         invalid_type_error: `Estado civil é obrigatório`
-    }),
+    }).refine(maritial => maritial != '', {message: `Estado civil é obrigatório`}),
     cellphone: z.string({
         required_error: `Telefone é obrigatório`
-    }),
+    }).refine(phone => phone != '', {message: `Telefone é obrigatório`}),
     weight: z.coerce.number().optional(),
     height: z.coerce.number().optional(),
     profession: z.coerce.number().optional(),
