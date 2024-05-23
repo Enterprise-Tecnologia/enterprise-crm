@@ -1,7 +1,4 @@
 import { getCotacoes } from "@/services/proposal";
-import DataTable from "../table/data-table";
-import { leadColumns } from "./_columns";
-import Paginator from "../table/paginator";
 import { ReadonlyURLSearchParams } from 'next/navigation'
 import { TableDataLead } from "./_table-data-lead";
 
@@ -12,16 +9,18 @@ export default async function Page({
 }: {
     searchParams: ReadonlyURLSearchParams
 })  {
-    const params = new URLSearchParams()
+    const params = new URLSearchParams();
     const pageLimit = 10;
-    let page = 1;
+    // let page = 1;
+    let startingPage = (searchParams as any)['page'] ?? 1;
 
-    const {totalCount, items } = await getCotacoes(page, pageLimit);
+    // if ((searchParams as any)['page']) {
+	// 	params.set('page', (searchParams as any)['page']);
+    //     startingPage = (searchParams as any)['page'] ?? 1;
+    // }
+
+    const {totalCount, items} = await getCotacoes(startingPage, pageLimit);
     const totalPages = Math.ceil(totalCount / pageLimit);
-
-    if ((searchParams as any)['page'])
-		params.set('page', (searchParams as any)['page'])
-
 
     return (
         <>
@@ -30,9 +29,13 @@ export default async function Page({
                     `container border-2 p-4`
                 }
             >
-                Cotações
+                <div className="flex justify-around bg-teal-50 my-4 p-4 rounded-lg shadow-md">
+                    <h2 className="text-2xl font-extrabold m-2">
+                        Propostas
+                    </h2>
+                </div>
 
-                {items &&(
+                {items && items.length > 0 &&(
                     <>
                         {/* <DataTable
                             data={items}
@@ -46,8 +49,8 @@ export default async function Page({
                         /> */}
                         <TableDataLead
                             data={items}
-                            currentPage={page}
-                            pageCount={totalCount}
+                            currentPage={startingPage}
+                            pageCount={totalPages}
                         />
                     </>
                 )}

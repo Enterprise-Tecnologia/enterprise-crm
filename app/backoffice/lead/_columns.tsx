@@ -155,9 +155,9 @@ export const leadColumns: ColumnDef<ICotacao>[] = [
           <Badge
             variant={isError ? `destructive`: `default`}
             className={cn(
-                row.getValue("status") === 'Active' ? `bg-teal-800 : hover:bg-teal-600` : ``,
-                row.getValue("status") === 'Pending' ? `bg-yellow-800 : hover:bg-yellow-600` : ``,
-                row.getValue("status") === 'Waiting' ? `bg-violet-800 : hover:bg-violet-600` : ``,
+                row.getValue("status") === 'Active' ? `bg-teal-500 : hover:bg-teal-300` : ``,
+                row.getValue("status") === 'Pending' ? `bg-amber-500 : hover:bg-amber-300` : ``,
+                row.getValue("status") === 'Waiting' ? `bg-fuchsia-600 : hover:bg-fuchsia-200` : ``,
             )}
           >
             {row.getValue("status")}

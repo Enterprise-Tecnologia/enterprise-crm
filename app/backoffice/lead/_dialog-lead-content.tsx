@@ -83,14 +83,14 @@ export const DialogLeadContent = ({data}: {data:ICotacao}) => {
             </div>
 
             {data.proposal.length === 0 && (
-                <div className="flex justify-center pt-2">
+                <div className="flex justify-center pt-4">
                     {data.product.company.name === 'RMS' && (
                         <Button
                             onClick={handleSendRMS}
                             className="gap-2"
                         >
                             Enviar cotação
-                            <ArrowRightCircleIcon size={24} />
+                            <ArrowRightCircleIcon size={24} className="text-green-300" />
                         </Button>
                     )}
 
@@ -100,7 +100,7 @@ export const DialogLeadContent = ({data}: {data:ICotacao}) => {
                             className="gap-2"
                         >
                             Enviar cotação
-                            <ArrowRightCircleIcon size={24} />
+                            <ArrowRightCircleIcon size={24} className="text-blue-300" />
                         </Button>
                     )}
 
@@ -116,14 +116,14 @@ export const DialogLeadContent = ({data}: {data:ICotacao}) => {
                     )}
                 </div>
 
-                <div className="flex justify-center pt-2">
+                <div className="flex justify-center pt-4">
                     {data.product.company.name === 'Sul América' && (
                         <Button
                             onClick={handleReSendSulAmerica}
                             className="gap-2"
                         >
                             Reenviar cotação
-                            <ArrowRightCircleIcon size={24} />
+                            <ArrowRightCircleIcon size={24} className="text-blue-300" />
                         </Button>
                     )}
 

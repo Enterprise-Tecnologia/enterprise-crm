@@ -25,16 +25,18 @@ import {
     TableRow,
 } from "@/components/ui/table"
 import { ColumnDef } from "@tanstack/react-table"
-import Paginator from "./paginator"
+import { Loader2Icon } from "lucide-react";
 
 export interface DataTableProps {
   data: any[];
   columns: ColumnDef<any, any>[];
-}
+  isLoading?: boolean;
+};
 
 export default function DataTable({
   data,
   columns,
+  isLoading = false,
 }: DataTableProps) {
     const [sorting, setSorting] = React.useState<SortingState>([])
     const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
@@ -117,6 +119,11 @@ export default function DataTable({
               )}
             </TableBody>
           </Table>
+          {isLoading && (
+            <div className="absolute top-0 right-0 flex justify-center items-center w-full h-full bg-[#ffffffaf]">
+              <Loader2Icon className="animate-spin" />
+            </div>
+          )}
         </div>
 
         {/* <div className="flex items-center justify-end space-x-2 py-4">

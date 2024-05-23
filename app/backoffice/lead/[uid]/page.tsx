@@ -28,18 +28,23 @@ export default async function Page({
             
             <div className="container border-2 p-4">
 
-                <div>
-                    <Link
-                        href={`/backoffice/lead`}
-                    >
-                        <Button
-                            type="button"
-                            className={`gap-2`}
+                <div className="flex justify-around bg-teal-50 my-4 p-4 rounded-lg shadow-md">
+                    <div>
+                        <Link
+                            href={`/backoffice/lead`}
                         >
-                            <ArrowLeftCircleIcon size={24}/>
-                            Voltar
-                        </Button>
-                    </Link>
+                            <Button
+                                type="button"
+                                className={`gap-2`}
+                            >
+                                <ArrowLeftCircleIcon size={24}/>
+                                Voltar
+                            </Button>
+                        </Link>
+                    </div>
+                    <h2 className="text-2xl font-extrabold m-2">
+                        Detalhe da proposta
+                    </h2>
                 </div>
 
                 <FieldTitle label="Cotação" />
@@ -52,7 +57,7 @@ export default async function Page({
                                 className={cn(
                                     data.status === 'Active' ? `bg-teal-800 : hover:bg-teal-600` : ``,
                                     data.status === 'Pending' ? `bg-yellow-800 : hover:bg-yellow-600` : ``,
-                                    data.status === 'Waiting' ? `bg-violet-800 : hover:bg-violet-600` : ``,
+                                    data.status === 'Waiting' ? `bg-fuchsia-800 : hover:bg-fuchsia-600` : ``,
                                 )}
                             >
                                 {data.status}
@@ -65,9 +70,10 @@ export default async function Page({
                             <FieldValue label="Protocolo" value={data.protocol} />
                         </div>
                     )}
+                    <FieldValue label={`Atualizado`} value={data.updated} />
                 </div>
 
-                <FieldTitle label="Produto" />
+                <FieldTitle label="Dados Contratação" />
 
                 <div className="grid grid-cols-2 bg-zinc-100 rounded-lg p-2">
                     <FieldValue label={`Produto`} value={data.product.name} />
@@ -78,6 +84,7 @@ export default async function Page({
                             {data.proposal[0].externalId && (
                                 <FieldValue label={`Chave externa`} value={data.proposal[0].externalId} />
                             )}
+                            <FieldValue label={`Atualizado`} value={data.proposal[0].updated} />
                         </>
                     )}
                 </div>
