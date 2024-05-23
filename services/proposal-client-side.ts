@@ -47,3 +47,25 @@ export const postCreatePDFDocument = async(proposalUid: string): Promise<ApiResp
     
     return await res.json() as ApiResponseType;
 };
+
+export const postProposalRms = async(uid: string): Promise<ApiResponseType> => {
+    
+    const res = await fetch(`${baseUrl}/Proposal/rms`, {
+        method: 'Post',
+        headers: {
+            'Content-Type': 'application/json',
+            'Accept': '*/*'
+        },
+        body: JSON.stringify(uid)
+    });
+
+    if(!res.ok) {
+        return {
+            success: false,
+            message: `Não foi possível efetuar a transação`
+        } as ApiResponseType;
+    }
+
+    return await res.json() as ApiResponseType;
+
+};
