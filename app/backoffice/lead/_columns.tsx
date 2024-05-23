@@ -9,6 +9,7 @@ import { Badge } from "@/components/ui/badge";
 import { cpfCnpjFormatter } from "@/lib/cpf-cnpj-formatter";
 import { dateTimeFormatter } from "@/lib/date-time-formatter";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
+import { cn } from "@/lib/utils";
 
 export interface ICotacao {
   uid: string;
@@ -39,6 +40,8 @@ interface ICompany {
 interface IProposal {
   amount: number;
   status: string;
+  externalId?: string;
+  created?: Date;
 }
 
 export const leadColumns: ColumnDef<ICotacao>[] = [
@@ -112,7 +115,7 @@ export const leadColumns: ColumnDef<ICotacao>[] = [
           </Button>
         )
       },
-      cell: ({ row }) => <div className="w-32 lowercase">{row.getValue("name")}</div>,
+      cell: ({ row }) => <div className="w-32 uppercase">{row.getValue("name")}</div>,
     },
     {
       accessorKey: "email",
@@ -151,7 +154,14 @@ export const leadColumns: ColumnDef<ICotacao>[] = [
         return (
           <Badge
             variant={isError ? `destructive`: `default`}
-          >{row.getValue("status")}</Badge>
+            className={cn(
+                row.getValue("status") === 'Active' ? `bg-teal-800 : hover:bg-teal-600` : ``,
+                row.getValue("status") === 'Pending' ? `bg-yellow-800 : hover:bg-yellow-600` : ``,
+                row.getValue("status") === 'Waiting' ? `bg-violet-800 : hover:bg-violet-600` : ``,
+            )}
+          >
+            {row.getValue("status")}
+          </Badge>
         );
       },
     },

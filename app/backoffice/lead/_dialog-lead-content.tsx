@@ -5,10 +5,12 @@ import ProcessingMessage from "@/app/external/proposal/[slug]/processing-message
 import { useState } from "react";
 import { FieldValue } from "./[uid]/_field-value";
 import { ArrowRightCircleIcon } from "lucide-react";
-import { postProposalRms } from "@/services/proposal-client-side";
+import { postProposalRms, postProposalSulAmerica, postProposalUpdateSulAmerica } from "@/services/proposal-client-side";
+import { useRouter } from "next/navigation";
 
 export const DialogLeadContent = ({data}: {data:ICotacao}) => {
 
+    const router = useRouter();
     const [sending, setSending] = useState(false);
     const [message, setMessage] = useState('');
 
@@ -28,9 +30,11 @@ export const DialogLeadContent = ({data}: {data:ICotacao}) => {
         setSending(true);
 
         postProposalRms(data.uid).then(res => {
-            console.log(res);
-            
             setMessage(res.message);
+
+            if(res.success) {
+                router.refresh();
+            }
 
         }).finally(() => {
             setSending(false);
@@ -38,8 +42,34 @@ export const DialogLeadContent = ({data}: {data:ICotacao}) => {
     };
 
     const handleSendSulAmerica = () => {
-        window.alert(JSON.stringify(data));
         setSending(true);
+
+        postProposalSulAmerica(data.uid).then(res => {
+            setMessage(res.message);
+
+            if(res.success) {
+                router.refresh();
+            }
+
+        }).finally(() => {
+            setSending(false);
+        });
+    };
+
+    const handleReSendSulAmerica = () => {
+
+        setSending(true);
+
+        postProposalUpdateSulAmerica(data.uid, data.proposal[0]?.externalId!).then(res => {
+            setMessage(res.message);
+
+            if(res.success) {
+                router.refresh();
+            }
+
+        }).finally(() => {
+            setSending(false);
+        });
     };
 
     return (
@@ -52,28 +82,55 @@ export const DialogLeadContent = ({data}: {data:ICotacao}) => {
                 <FieldValue label="Data proposta" value={data.created} />
             </div>
 
-            <div className="flex justify-center pt-2">
-                {data.product.company.name === 'RMS' && (
-                    <Button
-                        onClick={handleSendRMS}
-                        className="gap-2"
-                    >
-                        Enviar cotação
-                        <ArrowRightCircleIcon size={24} />
-                    </Button>
-                )}
+            {data.proposal.length === 0 && (
+                <div className="flex justify-center pt-2">
+                    {data.product.company.name === 'RMS' && (
+                        <Button
+                            onClick={handleSendRMS}
+                            className="gap-2"
+                        >
+                            Enviar cotação
+                            <ArrowRightCircleIcon size={24} />
+                        </Button>
+                    )}
 
-                {data.product.company.name === 'Sul América' && (
-                    <Button
-                        onClick={handleSendSulAmerica}
-                        className="gap-2"
-                    >
-                        Enviar cotação
-                        <ArrowRightCircleIcon size={24} />
-                    </Button>
-                )}
+                    {data.product.company.name === 'Sul América' && (
+                        <Button
+                            onClick={handleSendSulAmerica}
+                            className="gap-2"
+                        >
+                            Enviar cotação
+                            <ArrowRightCircleIcon size={24} />
+                        </Button>
+                    )}
 
-            </div>
+                </div>
+            )}
+
+            {data.proposal.length === 1 && (
+                <>
+                <div className="grid grid-cols-2">
+                    <FieldValue label={`Data envio`} value={data.proposal[0].created} />
+                    {data.proposal[0]?.externalId && (
+                        <FieldValue label={`Chave externa`} value={data.proposal[0].externalId} />
+                    )}
+                </div>
+
+                <div className="flex justify-center pt-2">
+                    {data.product.company.name === 'Sul América' && (
+                        <Button
+                            onClick={handleReSendSulAmerica}
+                            className="gap-2"
+                        >
+                            Reenviar cotação
+                            <ArrowRightCircleIcon size={24} />
+                        </Button>
+                    )}
+
+                </div>
+                </>
+            )}
+            
 
         </>
     )

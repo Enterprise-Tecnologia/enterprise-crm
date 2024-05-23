@@ -40,6 +40,15 @@ export default function DropDownMenuLead({
         setOpenDialog(opt => !opt);
     };
 
+    const handleReSendProposal = (cotacao:ICotacao) => {
+
+        setDialogData({
+            title: `Reenvio de proposta (${cotacao.product.company?.name ?? ''})`,
+            body: <DialogLeadContent data={cotacao} />,
+        });
+        setOpenDialog(opt => !opt);
+    };
+
     return (
         <>
         <DropdownMenu>
@@ -57,12 +66,18 @@ export default function DropDownMenuLead({
                 Copiar Id
             </DropdownMenuItem>
             
-            {/* {cotacao.proposal.length === 0 &&( */}
-            {cotacao.status === 'Pending' || cotacao.status === 'Error' &&(
+            {cotacao.status === 'Pending' &&(
                 <DropdownMenuItem
                     onClick={() => handleSendProposal(cotacao)}
                 >
                     Enviar Proposta
+                </DropdownMenuItem>
+            )}
+            {(cotacao.status === 'Waiting' || cotacao.status === 'Error') &&(
+                <DropdownMenuItem
+                    onClick={() => handleReSendProposal(cotacao)}
+                >
+                    Reenviar
                 </DropdownMenuItem>
             )}
             <DropdownMenuSeparator />
@@ -70,7 +85,7 @@ export default function DropDownMenuLead({
             <DropdownMenuItem
                 onClick={() => router.push(`lead/${cotacao.uid}`)}
             >
-                ver detalhes
+                Vizualizar
             </DropdownMenuItem>
             </DropdownMenuContent>
         </DropdownMenu>

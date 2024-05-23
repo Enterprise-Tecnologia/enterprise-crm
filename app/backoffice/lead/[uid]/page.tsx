@@ -5,6 +5,9 @@ import { FieldTitle } from "./_field-title";
 import { Button } from "@/components/ui/button";
 import { ArrowLeftCircleIcon } from "lucide-react";
 import Link from "next/link";
+import { cn } from "@/lib/utils";
+
+export const revalidate = 0 // revalidate always
 
 export default async function Page({
     params: { uid }}: {params: { uid: string }
@@ -43,8 +46,25 @@ export default async function Page({
 
                 <div className="grid grid-cols-2 bg-zinc-100 rounded-lg p-2">
                     <FieldValue label={`Data`} value={data.created} />
-                    <FieldValue label={`Situação`} value={<Badge>{data.status}</Badge>} />
+                    <FieldValue label={`Situação`} value={
+                            <Badge
+                                variant={data.status === 'Error' ? `destructive` : `default` }
+                                className={cn(
+                                    data.status === 'Active' ? `bg-teal-800 : hover:bg-teal-600` : ``,
+                                    data.status === 'Pending' ? `bg-yellow-800 : hover:bg-yellow-600` : ``,
+                                    data.status === 'Waiting' ? `bg-violet-800 : hover:bg-violet-600` : ``,
+                                )}
+                            >
+                                {data.status}
+                            </Badge>
+                        }
+                    />
                     <FieldValue label={`Tipo Pagamento`} value={data.paymentIntentNavigation?.type} />
+                    {data.protocol && (
+                        <div className="">
+                            <FieldValue label="Protocolo" value={data.protocol} />
+                        </div>
+                    )}
                 </div>
 
                 <FieldTitle label="Produto" />
@@ -52,6 +72,14 @@ export default async function Page({
                 <div className="grid grid-cols-2 bg-zinc-100 rounded-lg p-2">
                     <FieldValue label={`Produto`} value={data.product.name} />
                     <FieldValue label={`Parceiro`} value={data.product.company.name} />
+                    {data.proposal[0] && (
+                        <>
+                            <FieldValue label={`Data envio`} value={data.proposal[0].created} />
+                            {data.proposal[0].externalId && (
+                                <FieldValue label={`Chave externa`} value={data.proposal[0].externalId} />
+                            )}
+                        </>
+                    )}
                 </div>
 
                 <FieldTitle label="Dados Pessoais" />

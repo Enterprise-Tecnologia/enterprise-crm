@@ -5,6 +5,8 @@ import Paginator from "../table/paginator";
 import { ReadonlyURLSearchParams } from 'next/navigation'
 import { TableDataLead } from "./_table-data-lead";
 
+export const revalidate = 0 // revalidate always
+
 export default async function Page({
     searchParams
 }: {
