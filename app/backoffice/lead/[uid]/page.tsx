@@ -28,12 +28,13 @@ export default async function Page({
             
             <div className="container border-2 p-4">
 
-                <div className="flex justify-around bg-teal-50 my-4 p-4 rounded-lg shadow-md">
-                    <div>
+                <div className="flex items-center bg-teal-50 my-4 p-4 rounded-lg shadow-md">
+                    <div className="">
                         <Link
                             href={`/backoffice/lead`}
                         >
                             <Button
+                                variant={`ghost`}
                                 type="button"
                                 className={`gap-2`}
                             >
@@ -55,9 +56,9 @@ export default async function Page({
                             <Badge
                                 variant={data.status === 'Error' ? `destructive` : `default` }
                                 className={cn(
-                                    data.status === 'Active' ? `bg-teal-800 : hover:bg-teal-600` : ``,
-                                    data.status === 'Pending' ? `bg-yellow-800 : hover:bg-yellow-600` : ``,
-                                    data.status === 'Waiting' ? `bg-fuchsia-800 : hover:bg-fuchsia-600` : ``,
+                                    data.status === 'Active' ? `bg-teal-500 : hover:bg-teal-300` : ``,
+                                    data.status === 'Pending' ? `bg-amber-500 : hover:bg-amber-300` : ``,
+                                    data.status === 'Waiting' ? `bg-fuchsia-600 : hover:bg-fuchsia-200` : ``,
                                 )}
                             >
                                 {data.status}

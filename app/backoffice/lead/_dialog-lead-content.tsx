@@ -5,7 +5,13 @@ import ProcessingMessage from "@/app/external/proposal/[slug]/processing-message
 import { useState } from "react";
 import { FieldValue } from "./[uid]/_field-value";
 import { ArrowRightCircleIcon } from "lucide-react";
-import { postProposalRms, postProposalSulAmerica, postProposalUpdateSulAmerica } from "@/services/proposal-client-side";
+
+import {
+    postProposalRms,
+    postProposalSulAmerica,
+    postProposalUpdateSulAmerica
+} from "@/services/proposal-client-side";
+
 import { useRouter } from "next/navigation";
 
 export const DialogLeadContent = ({data}: {data:ICotacao}) => {

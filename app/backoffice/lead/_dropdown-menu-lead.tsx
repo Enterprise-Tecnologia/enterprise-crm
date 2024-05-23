@@ -13,7 +13,6 @@ import {
 
 import { MoreHorizontal } from "lucide-react";
 import { ICotacao } from "./_columns";
-import { DialogLead } from './_dialog-lead';
 import { useState } from 'react';
 import DialogAlert from '@/components/ui/dialog-alert';
 import { DialogLeadContent } from './_dialog-lead-content';
