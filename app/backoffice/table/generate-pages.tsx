@@ -20,6 +20,7 @@ export const generatePaginationLinks = (
           <PaginationLink
             onClick={() => onPageChange(i)}
             isActive={i === currentPage}
+            className={i === currentPage ? `` : `cursor-pointer`}
           >
             {i}
           </PaginationLink>

@@ -33,21 +33,21 @@ export default function Paginator({
     <Pagination>
       <PaginationContent>
         {showPreviousNext && totalPages ? (
-          <PaginationItem>
+          // <PaginationItem>
             <PaginationPrevious
               onClick={() => onPageChange(currentPage - 1)}
               disabled={currentPage - 1 < 1}
             />
-          </PaginationItem>
+          // </PaginationItem>
         ) : null}
         {generatePaginationLinks(currentPage, totalPages, onPageChange)}
         {showPreviousNext && totalPages ? (
-          <PaginationItem>
+          // <PaginationItem>
             <PaginationNext
               onClick={() => onPageChange(currentPage + 1)}
               disabled={currentPage > totalPages - 1}
             />
-          </PaginationItem>
+          // </PaginationItem>
         ): null}
       </PaginationContent>
     </Pagination>

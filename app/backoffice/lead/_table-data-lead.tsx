@@ -30,7 +30,7 @@ export const TableDataLead = ({
     const [isLoading, setIsLoading] = React.useState(false);
 
     useEffect(() => {
-		setIsLoading(false)
+		setIsLoading(false);
 	}, [searchParams])
 
     return (
