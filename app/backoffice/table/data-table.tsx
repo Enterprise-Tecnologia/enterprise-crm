@@ -1,5 +1,8 @@
 // same as your regular shadcn datatable implementation (which uses tanstack table)
 // note that the shadcn datatable uses shadcn table for the ui. see https://ui.shadcn.com/docs/components/data-table
+'use client';
+
+import * as React from "react"
 
 import {
     ColumnFiltersState,
@@ -11,29 +14,30 @@ import {
     getPaginationRowModel,
     getSortedRowModel,
     useReactTable,
-  } from "@tanstack/react-table"
-  import * as React from "react"
+} from "@tanstack/react-table"
   
-  import {
+import {
     Table,
     TableBody,
     TableCell,
     TableHead,
     TableHeader,
     TableRow,
-  } from "@/components/ui/table"
-  import { ColumnDef } from "@tanstack/react-table"
-  import Paginator from "./paginator"
-  
-  export interface DataTableProps {
-    data: any[];
-    columns: ColumnDef<any, any>[];
-  }
-  
-  export default function DataTable({
-    data,
-    columns,
-  }: DataTableProps) {
+} from "@/components/ui/table"
+import { ColumnDef } from "@tanstack/react-table"
+import { Loader2Icon } from "lucide-react";
+
+export interface DataTableProps {
+  data: any[];
+  columns: ColumnDef<any, any>[];
+  isLoading?: boolean;
+};
+
+export default function DataTable({
+  data,
+  columns,
+  isLoading = false,
+}: DataTableProps) {
     const [sorting, setSorting] = React.useState<SortingState>([])
     const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
       []
@@ -115,8 +119,14 @@ import {
               )}
             </TableBody>
           </Table>
+          {isLoading && (
+            <div className="absolute top-0 right-0 flex justify-center items-center w-full h-full bg-[#ffffffaf]">
+              <Loader2Icon className="animate-spin" />
+            </div>
+          )}
         </div>
-        <div className="flex items-center justify-end space-x-2 py-4">
+
+        {/* <div className="flex items-center justify-end space-x-2 py-4">
           <div className="flex-1 text-sm text-muted-foreground">
             {
               table.getFilteredSelectedRowModel().rows.length ? (
@@ -133,7 +143,8 @@ import {
               showPreviousNext
             />
           </div>
-        </div>
+        </div> */}
+
       </div>
     )
   }
