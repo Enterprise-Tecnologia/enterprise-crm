@@ -92,6 +92,28 @@ export const postProposalSulAmerica = async(uid: string): Promise<ApiResponseTyp
 
 };
 
+export const postProposalPottencial = async(uid: string): Promise<ApiResponseType> => {
+    
+    const res = await fetch(`${baseUrl}/Proposal/pottencial`, {
+        method: 'Post',
+        headers: {
+            'Content-Type': 'application/json',
+            'Accept': '*/*'
+        },
+        body: JSON.stringify(uid)
+    });
+
+    if(!res.ok) {
+        return {
+            success: false,
+            message: `Não foi possível efetuar a transação`
+        } as ApiResponseType;
+    }
+
+    return await res.json() as ApiResponseType;
+
+};
+
 export const postProposalUpdateSulAmerica = async(
     uid: string, token: string
 ): Promise<ApiResponseType> => {
