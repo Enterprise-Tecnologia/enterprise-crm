@@ -5,6 +5,7 @@ import { postCreatePDFDocument } from "@/services/proposal-client-side";
 import { FileText } from "lucide-react";
 import Link from "next/link";
 import { useEffect } from "react";
+import Loading from "./loading";
 
 export default function SuccessMessage({
     product,
@@ -38,8 +39,11 @@ export default function SuccessMessage({
     };
 
     useEffect(() => {
-        parent.location = `https://www.enterpriseseguros.com.br/sucesso-telemedicina-individual-homo?t=${leadUid}`;
-    }, []);
+        if(leadUid)
+            parent.location = `https://www.enterpriseseguros.com.br/sucesso-telemedicina-individual-homo?t=${leadUid}`;
+    }, [leadUid]);
+
+    return (<Loading />)
 
     return (
         <div className="flex flex-col items-center w-screen h-screen pt-20">
