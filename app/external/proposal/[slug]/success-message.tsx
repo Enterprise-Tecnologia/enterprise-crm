@@ -48,7 +48,7 @@ export default function SuccessMessage({
     };
 
     useEffect(() => {
-        setTimeout(() => {() => handleRedirect();}, 500);
+        setTimeout(() => {handleRedirect();}, 500);
     }, []);
 
     return (<Loading />);
