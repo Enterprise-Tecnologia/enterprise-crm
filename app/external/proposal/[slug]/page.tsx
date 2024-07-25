@@ -1,19 +1,22 @@
-import { Suspense } from "react";
 import FormVendaDireta from "./form-venda-direta";
 import { getProductBySlug } from "@/services/product";
 import { getDomainByGroup } from "@/services/domain";
 import { Product } from "@/types/product";
 import { Domain } from "@/types/domain";
+// import IframeButton from "./iframe-button";
+import { Suspense } from "react";
 
 export default async function Page(
     {params: {slug}}: {params: {slug: string}}
 ) {
-
     const {data: data, success} = await getProductBySlug(slug);
 
     if(!slug || !success)
         return(
-            <div>Nenhum parametro localizado</div>
+            <div>
+                <h3>Nenhum parametro localizado</h3>
+                {/* <IframeButton /> */}
+            </div>
     )
 
     const [states, genders, maritials] = await Promise.all([
@@ -51,14 +54,14 @@ export default async function Page(
 
     return (
         <>
-            {/* <Suspense fallback={<div>Carregando...</div>}> */}
+            <Suspense fallback={<div>Carregando...</div>}>
                 <FormVendaDireta
                     product={data as Product}
                     states={statesList}
                     genders={gendersList}
                     maritialStatus={maritialsList}
                 />
-            {/* </Suspense> */}
+            </Suspense>
         </>
     );
 }
