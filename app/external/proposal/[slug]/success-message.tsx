@@ -39,11 +39,12 @@ export default function SuccessMessage({
     };
 
     useEffect(() => {
-        if(leadUid)
+        setTimeout(() => {
             parent.location = `https://www.enterpriseseguros.com.br/sucesso-telemedicina-individual-homo?t=${leadUid}`;
-    }, [leadUid]);
+        }, 1500);
+    }, []);
 
-    return (<Loading />)
+    return (<Loading />);
 
     return (
         <div className="flex flex-col items-center w-screen h-screen pt-20">
