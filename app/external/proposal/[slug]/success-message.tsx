@@ -16,7 +16,7 @@ export default function SuccessMessage({
     product: string,
     message: string,
     linkCondicoes: string,
-    leadUid?: string
+    leadUid: string
 }) {
 
     const _handleTermoAdesao = async(): Promise<void> => {
@@ -39,6 +39,7 @@ export default function SuccessMessage({
     };
 
     const handleRedirect = async() => {
+
         const redirectUrl = product
             .indexOf('Individual') > 0
                 ? `https://www.enterpriseseguros.com.br/sucesso-telemedicina-individual-homo?t=${leadUid}`
