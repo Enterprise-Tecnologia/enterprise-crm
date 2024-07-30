@@ -79,17 +79,6 @@ export default function FormVendaDireta({
         resolver: zodResolver(DirectSaleSchema)
     });
 
-    // function onSubmit(data: DirectSalePersonalDataInput) {
-        // toast({
-        //   title: "You submitted the following values:",
-        //   description: (
-        //     <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
-        //       <code className="text-white">{JSON.stringify(data, null, 2)}</code>
-        //     </pre>
-        //   ),
-        // })
-    // }
-
     const OnSubmitPersonalStep = (data: DirectSalePersonalDataInput) => {
         formPersonal.trigger().then(result => {
 
@@ -350,7 +339,7 @@ export default function FormVendaDireta({
                             ? 'https://drive.google.com/file/d/1PMxuMEHLvUMByy9B-EBoFuOXttLp8L5h/view?usp=sharing'
                             : 'https://drive.google.com/file/d/1AMz13jBrA4fZ0OTLaNIVvPZdbKEgcrkL/view?usp=sharing';
 
-    if(isAlreadySubmited)
+    if(isAlreadySubmited && leadUid)
         return <SuccessMessage
                     product={product.name}
                     message={`Encaminhamos a sua solicitação a Rede Mais Saúde que entrara em contado através do e-mail informado no cadastro.`}

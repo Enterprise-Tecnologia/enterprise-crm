@@ -4,6 +4,8 @@ import { cn } from "@/lib/utils";
 import { postCreatePDFDocument } from "@/services/proposal-client-side";
 import { FileText } from "lucide-react";
 import Link from "next/link";
+import { useEffect } from "react";
+import Loading from "./loading";
 
 export default function SuccessMessage({
     product,
@@ -14,7 +16,7 @@ export default function SuccessMessage({
     product: string,
     message: string,
     linkCondicoes: string,
-    leadUid?: string
+    leadUid: string
 }) {
 
     const _handleTermoAdesao = async(): Promise<void> => {
@@ -35,6 +37,22 @@ export default function SuccessMessage({
             });
 
     };
+
+    const handleRedirect = async() => {
+
+        const redirectUrl = product
+            .indexOf('Individual') > 0
+                ? `https://www.enterpriseseguros.com.br/sucesso-telemedicina-individual-homo?t=${leadUid}`
+                : `https://www.enterpriseseguros.com.br/sucesso-telemedicina-familia-homo?t=${leadUid}`;
+
+        parent.location = redirectUrl;
+    };
+
+    useEffect(() => {
+        setTimeout(() => {handleRedirect();}, 500);
+    }, []);
+
+    return (<Loading />);
 
     return (
         <div className="flex flex-col items-center w-screen h-screen pt-20">
@@ -93,7 +111,7 @@ export default function SuccessMessage({
                         </Link>
                     </li>
                 )}
-                
+
             </ul>
         </div>
     );

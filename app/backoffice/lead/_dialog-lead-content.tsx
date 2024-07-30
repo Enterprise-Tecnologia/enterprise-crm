@@ -7,6 +7,7 @@ import { FieldValue } from "./[uid]/_field-value";
 import { ArrowRightCircleIcon } from "lucide-react";
 
 import {
+    postProposalPottencial,
     postProposalRms,
     postProposalSulAmerica,
     postProposalUpdateSulAmerica
@@ -51,6 +52,21 @@ export const DialogLeadContent = ({data}: {data:ICotacao}) => {
         setSending(true);
 
         postProposalSulAmerica(data.uid).then(res => {
+            setMessage(res.message);
+
+            if(res.success) {
+                router.refresh();
+            }
+
+        }).finally(() => {
+            setSending(false);
+        });
+    };
+
+    const handleSendPottencial = () => {
+        setSending(true);
+
+        postProposalPottencial(data.uid).then(res => {
             setMessage(res.message);
 
             if(res.success) {
@@ -107,6 +123,16 @@ export const DialogLeadContent = ({data}: {data:ICotacao}) => {
                         >
                             Enviar cotação
                             <ArrowRightCircleIcon size={24} className="text-blue-300" />
+                        </Button>
+                    )}
+
+                    {data.product.company.name === 'Pottencial' && (
+                        <Button
+                            onClick={handleSendPottencial}
+                            className="gap-2"
+                        >
+                            Enviar cotação
+                            <ArrowRightCircleIcon size={24} className="text-red-300" />
                         </Button>
                     )}
 

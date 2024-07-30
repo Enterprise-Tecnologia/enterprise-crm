@@ -37,14 +37,14 @@ export const postCreatePDFDocument = async(proposalUid: string): Promise<ApiResp
         },
         body: JSON.stringify(proposalUid)
     });
-    
+
     if(!res.ok) {
         return {
             success: false,
             message: `Não foi possível localizar o recurso`
         } as ApiResponseType;
     }
-    
+
     return await res.json() as ApiResponseType;
 };
 
@@ -73,6 +73,28 @@ export const postProposalRms = async(uid: string): Promise<ApiResponseType> => {
 export const postProposalSulAmerica = async(uid: string): Promise<ApiResponseType> => {
     
     const res = await fetch(`${baseUrl}/Proposal/sul-america`, {
+        method: 'Post',
+        headers: {
+            'Content-Type': 'application/json',
+            'Accept': '*/*'
+        },
+        body: JSON.stringify(uid)
+    });
+
+    if(!res.ok) {
+        return {
+            success: false,
+            message: `Não foi possível efetuar a transação`
+        } as ApiResponseType;
+    }
+
+    return await res.json() as ApiResponseType;
+
+};
+
+export const postProposalPottencial = async(uid: string): Promise<ApiResponseType> => {
+    
+    const res = await fetch(`${baseUrl}/Proposal/pottencial`, {
         method: 'Post',
         headers: {
             'Content-Type': 'application/json',
