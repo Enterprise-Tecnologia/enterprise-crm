@@ -18,7 +18,7 @@ export default function Summary({
     const currencyOptions = {
         style: 'currency',
         currency: 'BRL'
-    };
+    } as Intl.NumberFormatOptions;
 
     return (
         <div className={
