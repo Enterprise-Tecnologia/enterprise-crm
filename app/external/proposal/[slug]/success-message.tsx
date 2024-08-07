@@ -1,6 +1,6 @@
 'use client';
 
-import { cn } from "@/lib/utils";
+import { cn, downloadItem } from "@/lib/utils";
 import { postCreatePDFDocument } from "@/services/proposal-client-side";
 import { FileText } from "lucide-react";
 import Link from "next/link";
@@ -19,6 +19,9 @@ export default function SuccessMessage({
     leadUid: string
 }) {
 
+    const redirectIndividual = process.env.NEXT_PUBLIC_REDIRECT_RMS_INDIVIDUAL ?? '';
+    const redirectFamiliar = process.env.NEXT_PUBLIC_REDIRECT_RMS_FAMILIAR ?? '';
+
     const _handleTermoAdesao = async(): Promise<void> => {
 
         if(!leadUid)    return;
@@ -27,23 +30,16 @@ export default function SuccessMessage({
             .then(result => {
                 if(!result.success) return;
 
-                // const url = window.URL.createObjectURL(new Blob(result.data));
-                const link = document.createElement('a');
-                link.href = `data:application/pdf;base64,${result.data}`;
-                link.setAttribute('download', `termo-adesao_${leadUid}.pdf`);
-                document.body.appendChild(link);
-                link.click();
-                link.parentNode?.removeChild(link);
+                downloadItem(result.data, `termo-adesao_${leadUid}.pdf`);
             });
-
     };
 
     const handleRedirect = async() => {
 
         const redirectUrl = product
             .indexOf('Individual') > 0
-                ? `https://www.enterpriseseguros.com.br/sucesso-telemedicina-individual-homo?t=${leadUid}`
-                : `https://www.enterpriseseguros.com.br/sucesso-telemedicina-familia-homo?t=${leadUid}`;
+                ? `${redirectIndividual}?t=${leadUid}`
+                : `${redirectFamiliar}?t=${leadUid}`;
 
         parent.location = redirectUrl;
     };
