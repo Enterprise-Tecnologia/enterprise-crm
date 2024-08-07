@@ -2,12 +2,12 @@ import { Suspense } from "react";
 import DownloadedPage from "./downloaded";
 
 export default async function Page(
-    {searchParams: {term}}: {searchParams: {term: string}}
+    {searchParams: {t}}: {searchParams: {t: string}}
 ) {
 
     return (
         <Suspense fallback={`Carregando...`}>
-            <DownloadedPage term={term} />
+            <DownloadedPage term={t} />
         </Suspense>
     );
 }
