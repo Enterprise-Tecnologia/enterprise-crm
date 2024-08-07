@@ -29,13 +29,13 @@ export default function DownloadedPage({term}:{term:string}) {
     return (
         <>
             <h2
-                className="text-xl text-teal-900 font-semibold"
+                className="text-xl text-teal-900 font-semibold text-center pt-20"
             >
                 Parabéns!
             </h2>
             <p className="text-center text-teal-900 p-8 italic">
                 {/* {message} */}
-                Termo de adesão gerado com sucesso
+                Termo de adesão gerado com sucesso.
             </p>
         </>
     );
