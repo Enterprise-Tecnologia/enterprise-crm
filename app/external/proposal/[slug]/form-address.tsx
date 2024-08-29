@@ -118,7 +118,7 @@ export default function FormAddress({
                                 className={`w-2/3`}
                                 onClick={() => fnNavigation(1)}
                                 variant={`outline`}
-                                id={'btn-anterior-form-cadastro'}
+                                id={'btn-anterior-form-cadastro-homo'}
                             >
                                 <ChevronLeftCircleIcon size={18} className="m-4" />
                                 Anterior
@@ -127,7 +127,7 @@ export default function FormAddress({
                             <Button
                                 type="submit"
                                 className={`w-2/3 bg-[#199185] hover:bg-[#40aa9f]`}
-                                id={'btn-proximo-form-pagamento'}
+                                id={'btn-proximo-form-pagamento-homo'}
                             >
                                 Próximo
                                 <ChevronRightCircleIcon size={18} className="m-4" />
