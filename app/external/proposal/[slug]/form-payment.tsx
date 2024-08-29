@@ -133,6 +133,7 @@ export default function FormPayment({
                                 className={`w-2/3`}
                                 onClick={() => fnNavigation(2)}
                                 variant={`outline`}
+                                id={'btn-anterior-form-endereco'}
                             >
                                 <ChevronLeftCircleIcon size={18} className="m-4" />
                                 Anterior
@@ -141,6 +142,7 @@ export default function FormPayment({
                             <Button
                                 type="submit"
                                 className={`w-2/3 bg-[#199185] hover:bg-[#40aa9f]`}
+                                id={'btn-contratar'}
                             >
                                 Contratar
                                 <CircleCheckBigIcon size={18} className="m-4" />
