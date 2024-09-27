@@ -106,7 +106,8 @@ export const DialogLeadContent = ({data}: {data:ICotacao}) => {
 
             {data.proposal.length === 0 && (
                 <div className="flex justify-center pt-4">
-                    {data.product.company.name === 'RMS' && (
+
+                    {data.product.company.name === 'RMS' || data.product.company.name === 'Ralbank' && (
                         <Button
                             onClick={handleSendRMS}
                             className="gap-2"
