@@ -129,7 +129,7 @@ export default function FormPersonal({
                         <div className="flex justify-center">
                             <Button
                                 type="submit"
-                                className={`w-2/3 bg-[#199185] hover:bg-[#40aa9f]`}
+                                className={`w-2/3 bg-[#233FFA] hover:bg-[#236efa]`}
                                 id={'btn-proximo-form-endereco-homo'}
                             >
                                 Próximo
