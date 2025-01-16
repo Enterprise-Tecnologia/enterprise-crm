@@ -29,7 +29,7 @@ export function FormItemSelect(
             name={name}
             render={({ field }) => (
                 <FormItem>
-                    <FormLabel className="text-teal-600">{label}</FormLabel>
+                    <FormLabel className="text-[#233FFA]">{label}</FormLabel>
                     <Select onValueChange={field.onChange} defaultValue={field.value} value={field.value}>
                         <FormControl>
                             <SelectTrigger>

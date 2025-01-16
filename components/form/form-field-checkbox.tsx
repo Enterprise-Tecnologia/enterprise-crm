@@ -21,8 +21,6 @@ export function FormFieldCheckbox({
     formControl: Control<any>
 }) {
 
-    
-
     return (
 
             <FormField
@@ -30,7 +28,7 @@ export function FormFieldCheckbox({
                 name={name}
                 render={({ field }) => (
                     <>
-                        <FormItem className="flex flex-row items-start space-x-3 space-y-0 rounded-md border p-4 hover:ring-1 ring-teal-100">
+                        <FormItem className="flex flex-row items-start space-x-3 space-y-0 rounded-md border p-4 hover:ring-1 ring-[#d2d7fa]">
                             <FormControl>
                                 <Checkbox
                                     checked={field.value}
@@ -38,7 +36,7 @@ export function FormFieldCheckbox({
                                 />
                             </FormControl>
                             <div className="space-y-1 leading-none">
-                                <FormLabel className="text-teal-800 hover:cursor-pointer hover:underline">
+                                <FormLabel className="text-[#161561] hover:cursor-pointer hover:underline">
                                     {label}
                                 </FormLabel>
                                 {description && (

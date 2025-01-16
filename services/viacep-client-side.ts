@@ -9,10 +9,10 @@ export const getAddressByCEP = async(cep: string): Promise<any> => {
             'Accept': '*/*'
         }
     });
-    
+
     if(!res.ok) {
         return null;
     }
-    
+
     return await res.json();
 };
