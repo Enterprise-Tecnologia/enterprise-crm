@@ -104,14 +104,14 @@ export default function FormPayment({
                         <div className="flex flex-row space-x-1">
                             <FileTextIcon
                                 size={24}
-                                color="teal"
+                                color="#233FFA"
                             />
                             <Link
                                 href={linkAdesao ?? '#'}
                                 target={`_blank`}
                             >
                                 <span
-                                    className="text-teal-600 hover:underline"
+                                    className="text-[#233FFA] hover:underline"
                                 >
                                     Termo de Adesão
                                 </span>
@@ -141,7 +141,7 @@ export default function FormPayment({
 
                             <Button
                                 type="submit"
-                                className={`w-2/3 bg-[#199185] hover:bg-[#40aa9f]`}
+                                className={`w-2/3 bg-[#233FFA] hover:bg-[#236efa]`}
                                 id={'btn-contratar-homo'}
                             >
                                 Contratar

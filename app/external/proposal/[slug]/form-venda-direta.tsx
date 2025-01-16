@@ -358,7 +358,7 @@ export default function FormVendaDireta({
                     (<>
                         <h1
                             className={cn(
-                                `text-2xl p-4 my-3 text-teal-600 font-bold shadow-lg rounded-b-xl`,
+                                `text-2xl p-4 my-3 text-[#233FFA] font-bold shadow-lg rounded-b-xl`,
                                 `bg-gradient-to-b from-yellow-50 to-zinc-50`
                             )}
                         >
@@ -378,7 +378,7 @@ export default function FormVendaDireta({
                     (<>
                         <h1
                             className={cn(
-                                `text-2xl p-4 my-3 text-teal-600 font-bold shadow-lg rounded-b-xl`,
+                                `text-2xl p-4 my-3 text-[#233FFA] font-bold shadow-lg rounded-b-xl`,
                                 `bg-gradient-to-b from-yellow-50 to-zinc-50`
                             )}
                         >
@@ -398,7 +398,7 @@ export default function FormVendaDireta({
                     (<>
                         <h1
                             className={cn(
-                                `text-2xl p-4 my-3 text-teal-600 font-bold shadow-lg rounded-b-xl`,
+                                `text-2xl p-4 my-3 text-[#233FFA] font-bold shadow-lg rounded-b-xl`,
                                 `bg-gradient-to-b from-yellow-50 to-zinc-50`
                             )}
                         >

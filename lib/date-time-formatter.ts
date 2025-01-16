@@ -1,24 +1,29 @@
 
-export const dateTimeFormatter = (code: Date) => {
+export const dateTimeFormatter = (date: Date | string): string => {
+    // Converte para um objeto Date caso receba uma string
+    const dateObj = typeof date === 'string' ? new Date(date) : date;
 
-    const option = {
-        timeZone: 'America/Sao_Paulo', // Lista de Timezones no fim do artigo
-        // hour12: true,
-        dateStyle: 'medium', 
-        timeStyle: 'medium'
+    // Ajusta a data para o fuso horário de Brasília manualmente
+    const brasiliaOffset = -3; // UTC-3
+    const localDate = new Date(dateObj.getTime() + brasiliaOffset * 60 * 60 * 1000);
+
+    const options: Intl.DateTimeFormatOptions = {
+        timeZone: 'America/Sao_Paulo',
+        year: 'numeric',
+        month: '2-digit',
+        day: '2-digit',
+        hour: '2-digit',
+        minute: '2-digit',
+        second: '2-digit',
+        hour12: false, // Usa o formato 24 horas
     };
-    
-    const locale = 'pt-BR';
-    
 
-    // return formatter.format(code);
+    const formatter = new Intl.DateTimeFormat('pt-BR', options);
 
-    // const result = code.toISOString().match(/^[0-9]{4}\-[0-9]{2}\-[0-9]{2}/)[0].split('-').reverse().join('/')
+    // Divide o resultado em partes para ajustar o formato desejado
+    const parts = formatter.formatToParts(localDate);
+    const formattedDate = `${parts.find(p => p.type === 'day')?.value}/${parts.find(p => p.type === 'month')?.value}/${parts.find(p => p.type === 'year')?.value}`;
+    const formattedTime = `${parts.find(p => p.type === 'hour')?.value}:${parts.find(p => p.type === 'minute')?.value}:${parts.find(p => p.type === 'second')?.value}`;
 
-    // return code.toISOString().substr(0, 10).split('-').reverse().join('/');
-    const myBrazilianDate = code.toLocaleString(locale);
-    // return code.toLocaleDateString(locale, option);
-    // return new Intl.DateTimeFormat(locale, {year: '2-digit'}).format(code)
-
-    return myBrazilianDate;
+    return `${formattedDate} ${formattedTime}`;
 };

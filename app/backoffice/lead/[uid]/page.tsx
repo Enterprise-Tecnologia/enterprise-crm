@@ -6,6 +6,8 @@ import { Button } from "@/components/ui/button";
 import { ArrowLeftCircleIcon } from "lucide-react";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
+import { dateTimeFormatter } from "@/lib/date-time-formatter";
+import { dateFormatter } from "@/lib/date-formatter";
 
 export const revalidate = 0 // revalidate always
 
@@ -51,7 +53,7 @@ export default async function Page({
                 <FieldTitle label="Cotação" />
 
                 <div className="grid grid-cols-2 bg-zinc-100 rounded-lg p-2">
-                    <FieldValue label={`Data`} value={data.created} />
+                    <FieldValue label={`Data`} value={dateTimeFormatter(data.created)} />
                     <FieldValue label={`Situação`} value={
                             <Badge
                                 variant={data.status === 'Error' ? `destructive` : `default` }
@@ -95,7 +97,7 @@ export default async function Page({
                 <div className="grid grid-cols-2 bg-zinc-100 rounded-lg p-2">
                     <FieldValue label={`CPF`} value={data.document} />
                     <FieldValue label={`Nome`} value={data.name} />
-                    <FieldValue label={`Nascimento`} value={data.birthdate} />
+                    <FieldValue label={`Nascimento`} value={dateFormatter(data.birthdate)} />
                     <FieldValue label={`Email`} value={data.email} />
                     <FieldValue label={`Telefone`} value={data.cellPhone} />
                     <FieldValue label={`Sexo`} value={data.gender?.description} />

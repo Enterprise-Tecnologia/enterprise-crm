@@ -39,7 +39,7 @@ export function FormFieldInput(
             render={({ field }) => (
                 // fnMask(event.target.value))
                 <FormItem>
-                    <FormLabel className="text-teal-600">{label}</FormLabel>
+                    <FormLabel className="text-[#233FFA]">{label}</FormLabel>
                     <FormControl>
                         <Input
                             {...rest}
